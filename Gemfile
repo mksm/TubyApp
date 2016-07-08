@@ -10,6 +10,9 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
+# Auth
+gem 'devise', '~> 4.2'
+
 # Configuration
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
@@ -20,6 +23,8 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
+  gem 'factory_girl_rails', '~> 4.7'
+  gem 'capybara', '~> 2.7', '>= 2.7.1'
 end
 
 group :development do
