@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :video do
-    sequence(:name) { |n| "Video#{n}" }
-    sequence(:youtube_id) { |n| "youtubeid#{n}" }
+    name "Factory video"
+    youtube_id "ytubeid"
     category
   end
 end
