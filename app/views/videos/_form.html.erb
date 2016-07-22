@@ -21,6 +21,12 @@
     <%= f.text_field :youtube_id %>
   </div>
 
+  <div class="field">
+    <%= f.label :category_id %>
+    <%= f.collection_select :category_id,Category.all,:id,:name, {:prompt => 'Please select video category'} %>
+  </div>
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
