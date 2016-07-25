@@ -1,33 +1,8 @@
-<%= form_for(video) do |f| %>
-  <% if video.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(video.errors.count, "error") %> prohibited this video from being saved:</h2>
+<%= simple_form_for(video) do |f| %>
 
-      <ul>
-      <% video.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= f.input :name %>
+  <%= f.input :youtube_id %>
+  <%= f.association :category %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :youtube_id %>
-    <%= f.text_field :youtube_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :category_id %>
-    <%= f.collection_select :category_id,Category.all,:id,:name, {:prompt => 'Please select video category'} %>
-  </div>
-
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.submit :class => "btn btn-primary" %> 
 <% end %>
