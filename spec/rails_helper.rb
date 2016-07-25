@@ -57,4 +57,7 @@ RSpec.configure do |config|
   
   # Remove need for factory girl prefix
   config.include FactoryGirl::Syntax::Methods
+  
+  # Add request helpers for API tests
+  config.include RSpec::Rails::RequestExampleGroup, :type => :request, :file_path => /spec\/api/
 end
