@@ -13,9 +13,13 @@ gem 'jbuilder', '~> 2.5'
 # Auth
 gem 'devise', '~> 4.2'
 gem 'cancancan', '~> 1.15'
+gem 'simple_form', '~> 3.2', '>= 3.2.1'
 
 # Configuration
 gem 'figaro', '~> 1.1', '>= 1.1.1'
+
+# UI
+gem 'rails-assets-bootstrap', '~> 3.3.6', source: 'https://rails-assets.org'
 
 group :development, :test do
   gem 'byebug', platform: :mri
