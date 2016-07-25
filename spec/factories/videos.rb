@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :video do
-    name "MyString"
-    youtube_id "MyString"
+    name "Factory video"
+    youtube_id "ytubeid"
+    category
   end
 end
