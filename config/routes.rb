@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :sessions => 'sessions' }
   
   namespace 'api' do
-    resources :categories, only: :index    
+    resources :categories, only: :index
+    resources :videos, only: :index        
   end
 end

@@ -1,0 +1,1 @@
+json.array! @videos, :id, :name, :youtube_id, :category_id

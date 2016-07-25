@@ -7,6 +7,7 @@ class Ability
       
     else 
       can :read, Category
+      can :read, Video
     end
   end
 end
