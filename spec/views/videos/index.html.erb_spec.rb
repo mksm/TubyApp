@@ -5,11 +5,13 @@ RSpec.describe "videos/index", type: :view do
     assign(:videos, [
       Video.create!(
         :name => "Name",
-        :youtube_id => "Youtube"
+        :youtube_id => "Youtube",
+        :category => Category.create!(:name =>"Category")
       ),
       Video.create!(
         :name => "Name",
-        :youtube_id => "Youtube"
+        :youtube_id => "Youtube",
+        :category => Category.create!(:name =>"Category")
       )
     ])
   end
@@ -18,5 +20,6 @@ RSpec.describe "videos/index", type: :view do
     render
     assert_select "tr>td", :text => "Name".to_s, :count => 2
     assert_select "tr>td", :text => "Youtube".to_s, :count => 2
+    assert_select "tr>td", :text => "Category".to_s, :count => 2
   end
 end

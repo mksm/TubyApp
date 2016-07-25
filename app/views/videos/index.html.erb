@@ -16,6 +16,7 @@
       <tr>
         <td><%= video.name %></td>
         <td><%= video.youtube_id %></td>
+        <td><%= video.category.name %></td>
         <td><%= link_to 'Show', video %></td>
         <td><%= link_to 'Edit', edit_video_path(video) %></td>
         <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } %></td>
