@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Auth
 gem 'devise', '~> 4.2'
+gem 'cancancan', '~> 1.15'
 
 # Configuration
 gem 'figaro', '~> 1.1', '>= 1.1.1'
