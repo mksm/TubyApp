@@ -60,4 +60,17 @@ RSpec.configure do |config|
   
   # Add request helpers for API tests
   config.include RSpec::Rails::RequestExampleGroup, :type => :request, :file_path => /spec\/api/
+  
+  config.before(:suite) {
+    FactoryGirl.lint
+    DatabaseCleaner.clean_with(:truncation)
+  }
+  
+  config.before(:each) {
+    DatabaseCleaner.start
+  }
+    
+  config.after(:each) {
+    DatabaseCleaner.clean
+  }
 end
