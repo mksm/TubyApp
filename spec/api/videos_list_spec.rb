@@ -16,7 +16,7 @@ feature 'videos list' do
     before(:each) { get "/api/videos.json" } 
     
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to eq "[{\"id\":1,\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":1}]"}
+    it { expect(response.body).to eq "[{\"id\":#{v1.id},\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":#{c1.id}}]"}
   end
   
 end
