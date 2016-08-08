@@ -61,6 +61,9 @@ RSpec.configure do |config|
   # Add request helpers for API tests
   config.include RSpec::Rails::RequestExampleGroup, :type => :request, :file_path => /spec\/api/
   
+  # Add json spec helpers
+  config.include JsonSpec::Helpers
+  
   config.before(:suite) {
     FactoryGirl.lint
     DatabaseCleaner.clean_with(:truncation)
