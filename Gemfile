@@ -31,6 +31,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.7'
   gem 'capybara', '~> 2.7', '>= 2.7.1'
   gem 'database_cleaner', '~> 1.5.1'
+  gem 'json_spec', '~> 1.1', '>= 1.1.4'
 end
 
 group :development do
