@@ -24,7 +24,12 @@ feature 'videos list' do
     before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(",")} }
     
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to eq "[{\"id\":1,\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":1,\"created_at\":#{ActiveSupport::JSON.encode(v1.created_at)}}]"}
+    it { expect(parse_json(response.body, "0/id")).to eq v1.id }
+    it { expect(parse_json(response.body, "0/name")).to eq "Mickey" }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq "abc1234" }
+    it { expect(parse_json(response.body, "0/category_id")).to eq c1.id }    
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }    
+       
   end
   
   context "from single category" do
@@ -39,7 +44,12 @@ feature 'videos list' do
     before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(",")} } 
     
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to eq "[{\"id\":#{v1.id},\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":#{c1.id},\"created_at\":#{ActiveSupport::JSON.encode(v1.created_at)}}]"}
+    
+    it { expect(parse_json(response.body, "0/id")).to eq v1.id }
+    it { expect(parse_json(response.body, "0/name")).to eq "Mickey" }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq "abc1234" }
+    it { expect(parse_json(response.body, "0/category_id")).to eq c1.id }    
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }  
   end
   
 end
