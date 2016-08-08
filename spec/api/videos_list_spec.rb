@@ -24,7 +24,7 @@ feature 'videos list' do
     before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(",")} }
     
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to eq "[{\"id\":#{v1.id},\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":#{c1.id}}]"}
+    it { expect(response.body).to eq "[{\"id\":1,\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":1,\"created_at\":#{ActiveSupport::JSON.encode(v1.created_at)}}]"}
   end
   
   context "from single category" do
@@ -39,7 +39,7 @@ feature 'videos list' do
     before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(",")} } 
     
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to eq "[{\"id\":#{v1.id},\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":#{c1.id}}]"}
+    it { expect(response.body).to eq "[{\"id\":#{v1.id},\"name\":\"Mickey\",\"youtube_id\":\"abc1234\",\"category_id\":#{c1.id},\"created_at\":#{ActiveSupport::JSON.encode(v1.created_at)}}]"}
   end
   
 end
