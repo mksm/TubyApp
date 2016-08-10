@@ -21,6 +21,9 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 # UI
 gem 'rails-assets-bootstrap', '~> 3.3.6', source: 'https://rails-assets.org'
 
+# Paging
+gem 'kaminari', '~> 0.17.0'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'sqlite3'
