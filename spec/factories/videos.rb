@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :video do
-    name "Factory video"
+    name "Mickey Mouse"
     youtube_id "ytubeid"
     category
   end
