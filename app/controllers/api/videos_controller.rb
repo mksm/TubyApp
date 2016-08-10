@@ -5,6 +5,7 @@ class Api::VideosController < Api::BaseController
   
   def index
     @videos = @videos.where(:category_id => @category_ids)
+    @videos = @videos.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
   end
   
   private
