@@ -18,6 +18,7 @@ feature 'categories list' do
     it { expect(parse_json(response.body, "0/id")).to eq c1.id }
     it { expect(parse_json(response.body, "0/name")).to eq "Cartoons" }
     it { expect(parse_json(response.body, "0/videos_count")).to eq 0 }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }    
   end
   
   context "single category with one video" do
@@ -30,6 +31,7 @@ feature 'categories list' do
     it { expect(parse_json(response.body, "0/id")).to eq c1.id }
     it { expect(parse_json(response.body, "0/name")).to eq "Cartoons" }
     it { expect(parse_json(response.body, "0/videos_count")).to eq 1 }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }    
   end
   
 end
