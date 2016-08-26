@@ -17,6 +17,12 @@ class VideosController < ApplicationController
     @video.destroy
     redirect_to videos_url, notice: 'Video was successfully destroyed.'
   end
+  
+  def upload_csv
+    csv_text = params[:csv_file].read
+    Video.import_csv(csv_text)
+    redirect_to videos_url, notice: 'Videos created'
+  end
 
   private
     def video_params
