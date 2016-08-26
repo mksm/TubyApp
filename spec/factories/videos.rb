@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :video do
     name "Mickey Mouse"
-    youtube_id "ytubeid"
+    sequence(:youtube_id) {|n| "youtubeid#{n}" }
     category
   end
 end
