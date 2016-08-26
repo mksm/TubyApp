@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :categories
-  resources :videos
+  resources :videos do
+    collection do
+      post :upload_csv
+    end
+  end
   devise_for :users, :controllers => { :sessions => 'sessions' }
 
   root :to => 'videos#index'
