@@ -12,8 +12,8 @@ describe VideosController do
         post :upload_csv, params: { csv_file: fixture_file_upload('videos_1.csv','text/csv') }
       end
       
-      it { is_expected.to respond_with :redirect }
-      it { expect(Video.count).to eq 1 }
+      it { expect(response).to render_template(:upload_csv) }
+      it { expect(assigns(:videos).count).to eq 1 }
     end
     
   end

@@ -67,6 +67,9 @@ RSpec.configure do |config|
   # devise helpers for controller specs
   config.include Devise::Test::ControllerHelpers, :type => :controller
   
+  # helper for fixture files
+  config.include FixtureHelpers
+  
   config.before(:suite) {
     FactoryGirl.lint
     DatabaseCleaner.clean_with(:truncation)
