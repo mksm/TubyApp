@@ -8,9 +8,11 @@ class Video < ApplicationRecord
   validates :category, presence: true
   
   def self.import_csv(csv_text)
+    videos = []
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
-      Video.create!(row.to_hash)
+      videos << Video.new(row.to_hash)
     end
+    videos
   end
 end
