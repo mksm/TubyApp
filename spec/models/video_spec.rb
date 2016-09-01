@@ -37,5 +37,19 @@ RSpec.describe Video, type: :model do
       it { expect(@videos.count).to eq 1 }
       it { expect(@videos[0].valid?).to eq false }
     end
+    
+    context "with field spacing" do
+      let!(:category) { create(:category) }
+           
+      before(:each) { @videos = Video.import_csv(fixture_csv("videos_3_spaced_fields.csv").read) }      
+      
+      it { expect(Video.count).to eq 0 }
+      it { expect(@videos.count).to eq 1 }
+      it { expect(@videos[0].valid?).to eq true }
+      it { expect(@videos[0].name).to eq "Minions Home alone" }
+      it { expect(@videos[0].youtube_id).to eq "KKYXpcbdgFc" }
+      it { expect(@videos[0].category_id).to eq 1 }
+      
+    end
   end
 end
