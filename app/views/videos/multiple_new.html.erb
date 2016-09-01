@@ -1,0 +1,30 @@
+<%= flash_messages %>
+
+<%= simple_form_for :videos, url: create_multiple_videos_path do |f| %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Row</th>
+        <th>Name</th>
+        <th>YouTube ID</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+  <% @videos.each do |video| %>
+  
+    <%= simple_fields_for "videos[#{@videos.index(video)}]", video do |g| %>
+      <tr class="<%= g.object.valid? ? "" : "danger" %>">
+        <td><%= @videos.index(g.object) + 1 %></td>
+        <td><%= g.input :name, label: false %></td>
+        <td><%= g.input :youtube_id, label: false %></td>
+        <td><%= g.association :category, label: false %></td>
+      </tr>
+    <% end %>
+  
+  <% end %>
+  </table>
+  
+  <%= f.submit class: "btn btn-default" %>
+
+<% end %>
