@@ -20,8 +20,7 @@ class VideosController < ApplicationController
   
   def upload_csv
     csv_text = params[:csv_file].read
-    Video.import_csv(csv_text)
-    redirect_to videos_url, notice: 'Videos created'
+    @videos = Video.import_csv(csv_text)
   end
 
   private
