@@ -24,6 +24,12 @@ gem 'rails-assets-bootstrap', '~> 3.3.6', source: 'https://rails-assets.org'
 # Paging
 gem 'kaminari', '~> 0.17.0'
 
+# Translations
+gem 'http_accept_language', '~> 2.0', '>= 2.0.5'
+gem 'globalize', github: 'globalize/globalize', ref: "38443bcd07da78b7b8a9433e4c6c32dd51f964a3"
+gem 'globalize-accessors'
+gem 'activemodel-serializers-xml'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'sqlite3'

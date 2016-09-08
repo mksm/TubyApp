@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/globalize/globalize.git
+  revision: 38443bcd07da78b7b8a9433e4c6c32dd51f964a3
+  ref: 38443bcd07da78b7b8a9433e4c6c32dd51f964a3
+  specs:
+    globalize (5.1.0)
+      activemodel (>= 4.2, < 5.1)
+      activerecord (>= 4.2, < 5.1)
+      request_store (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -30,6 +40,11 @@ GEM
       globalid (>= 0.3.6)
     activemodel (5.0.0)
       activesupport (= 5.0.0)
+    activemodel-serializers-xml (1.0.1)
+      activemodel (> 5.x)
+      activerecord (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
     activerecord (5.0.0)
       activemodel (= 5.0.0)
       activesupport (= 5.0.0)
@@ -81,6 +96,9 @@ GEM
       thor (~> 0.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    globalize-accessors (0.2.1)
+      globalize (~> 5.0, >= 5.0.0)
+    http_accept_language (2.0.5)
     i18n (0.7.0)
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -161,6 +179,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    request_store (1.3.1)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     rspec (3.5.0)
@@ -235,6 +254,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel-serializers-xml
   byebug
   cancancan (~> 1.15)
   capybara (~> 2.7, >= 2.7.1)
@@ -243,6 +263,9 @@ DEPENDENCIES
   devise (~> 4.2)
   factory_girl_rails (~> 4.7)
   figaro (~> 1.1, >= 1.1.1)
+  globalize!
+  globalize-accessors
+  http_accept_language (~> 2.0, >= 2.0.5)
   jbuilder (~> 2.5)
   jquery-rails
   json_spec (~> 1.1, >= 1.1.4)
