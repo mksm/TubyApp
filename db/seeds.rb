@@ -1,6 +1,6 @@
 User.create! email: "matt@futureworkshops.com", password: "London123"
 
-Category.create(:name => "Minions")
+Category.create(name: "Minions", name_ar: "التوابع")
 Category.create(:name => "Scooby Doo")
 Category.create(:name => "Tom & Jerry")
 Category.create(:name => "Animaniacs")
