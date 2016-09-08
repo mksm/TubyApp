@@ -67,6 +67,9 @@ RSpec.configure do |config|
   # devise helpers for controller specs
   config.include Devise::Test::ControllerHelpers, :type => :controller
   
+  # Includes the login_as method
+  config.include Warden::Test::Helpers
+  
   # helper for fixture files
   config.include FixtureHelpers
   
