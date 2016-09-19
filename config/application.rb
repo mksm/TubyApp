@@ -9,6 +9,8 @@ Bundler.require(*Rails.groups)
 module STCYoutubekidsCms
   class Application < Rails::Application
 
+    I18n.available_locales = [:en, :ar]
+
     # use rspec for testing
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false

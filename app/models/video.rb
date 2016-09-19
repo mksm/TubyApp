@@ -7,6 +7,9 @@ class Video < ApplicationRecord
   validates :youtube_id, length: { minimum: 5 }, presence: true, uniqueness: true
   validates :category, presence: true
   
+  translates :name
+  globalize_accessors
+  
   def self.import_csv(csv_text)
     videos = []
     csv = CSV.parse(csv_text, :headers => true)

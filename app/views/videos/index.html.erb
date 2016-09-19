@@ -9,8 +9,10 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Youtube</th>
+      <th>Name (en)</th>
+      <th>Name (ar)</th>
+      <th>Youtube ID</th>
+      <th>Category</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,7 +20,8 @@
   <tbody>
     <% @videos.each do |video| %>
       <tr>
-        <td><%= video.name %></td>
+        <td><%= video.name_en %></td>
+        <td><%= video.name_ar %></td>
         <td><%= video.youtube_id %></td>
         <td><%= video.category.name %></td>
         <td><%= link_to 'Show', video %></td>

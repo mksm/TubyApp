@@ -8,4 +8,11 @@ class Api::BaseController < ActionController::Base
   rescue_from ActionController::ParameterMissing do |exception|
     render :status => 406    
   end
+  
+  before_filter :set_locale
+
+  private
+    def set_locale
+      I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+    end
 end
