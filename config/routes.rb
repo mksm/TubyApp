@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :categories, except: :show
-  resources :videos do
+  resources :videos, except: :show do
     collection do
       get :upload_csv
       post :upload_csv

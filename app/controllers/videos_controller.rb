@@ -2,20 +2,16 @@ class VideosController < ApplicationController
   load_and_authorize_resource
 
   def create
-    @video.save ? redirect_to(@video, notice: 'Video was successfully created.') : render(:new)
+    @video.save ? redirect_to(videos_path, notice: 'Video was successfully created.') : render(:new)
   end
 
   def update
-    if @video.update(video_params)
-      redirect_to @video, notice: 'Video was successfully updated.'
-    else
-      render :edit
-    end
+    @video.update(video_params) ? redirect_to(videos_path, notice: 'Video was successfully updated.') : render(:edit)
   end
 
   def destroy
     @video.destroy
-    redirect_to videos_url, notice: 'Video was successfully destroyed.'
+    redirect_to videos_path, notice: 'Video was successfully deleted.'
   end
   
   def upload_csv
