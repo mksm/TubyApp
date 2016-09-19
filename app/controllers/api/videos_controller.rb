@@ -5,7 +5,7 @@ class Api::VideosController < Api::BaseController
   
   def index
     @videos = @videos.where(:category_id => @category_ids)
-    @videos = @videos.where(' lower(name) LIKE lower(?)', "%#{params[:q]}%") if params[:q]
+    @videos = @videos.with_translations.where(' lower(video_translations.name) LIKE ?', "%#{params[:q].downcase}%") if params[:q]
     @videos = @videos.page(@page).per(@page_size)
   end
   
