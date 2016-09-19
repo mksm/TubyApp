@@ -10,9 +10,9 @@ feature 'delete category' do
     login_as user
   end
 
-  it "redirects to login if the user isnt signed in" do 
-    visit categories_path
-    click_link "Delete"    
+  it "redirects to categories path" do 
+    visit edit_category_path(category)
+    click_link "Delete Category"    
     
     expect(Category.count).to eq 0
     expect(Video.count).to eq 0
