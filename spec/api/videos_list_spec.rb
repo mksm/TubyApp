@@ -139,8 +139,9 @@ feature 'videos list' do
     let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
     
     let(:category_ids) { [c1.id] }
+    let(:included_youtube_ids) { [v1.youtube_id] }
     
-    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, included_youtube_ids: [v1.youtube_id]} }
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, included_youtube_ids: included_youtube_ids.join(",")} }
     
     it { expect(response.status).to eq 200 }
     
@@ -159,9 +160,10 @@ feature 'videos list' do
     let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
     
     let(:category_ids) { [c1.id] }
-    
-    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, excluded_youtube_ids: [v1.youtube_id]} }
-    
+    let(:excluded_youtube_ids) { [v1.youtube_id] }
+
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, excluded_youtube_ids:excluded_youtube_ids.join(",") } }
+
     it { expect(response.status).to eq 200 }
     
     it { expect(response.body).to have_json_size(1).at_path("/") }    
