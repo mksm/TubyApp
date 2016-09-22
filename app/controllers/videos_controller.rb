@@ -18,6 +18,12 @@ class VideosController < ApplicationController
     if request.post?
       csv_text = params[:csv_file].read
       @videos = Video.import_csv(csv_text)
+      
+      # run error check for duplicate youtube ids
+      youtube_ids = @videos.pluck(:youtube_id)
+      duplicate_ids = youtube_ids.select{ |e| youtube_ids.count(e) > 1 }.uniq
+      flash[:alert] = "The uploaded file contains duplicate YouTube IDs: #{duplicate_ids.join(",")}" unless duplicate_ids.empty?
+      
       render :multiple_new    
     end
   end

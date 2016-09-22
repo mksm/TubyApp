@@ -16,7 +16,22 @@ describe VideosController do
       it { expect(assigns(:videos).count).to eq 1 }
     end
     
+    context 'duplicate YouTube IDs' do
+      let!(:category) { create(:category) }
+      let(:user) { create(:user) }
+      
+      before do
+        sign_in user
+        post :upload_csv, params: { csv_file: fixture_file_upload('videos_4_duplicate_ids.csv','text/csv') }
+      end
+      
+      it { expect(response).to render_template('videos/multiple_new') }
+      it { expect(assigns(:videos).count).to eq 2 }
+      it { expect(flash[:alert]).to eq "The uploaded file contains duplicate YouTube IDs: KKYXpcbdgFc" }
+    end
+    
   end
+
   
   describe 'POST #create_multiple' do
     context 'two videos' do
