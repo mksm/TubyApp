@@ -149,28 +149,28 @@ feature 'videos list' do
     
     it { expect(response.status).to eq 200 }
     
-    xit { expect(response.body).to have_json_size(3).at_path("/") }
+    it { expect(response.body).to have_json_size(3).at_path("/") }
 
     # first video from 1st category
-    xit { expect(parse_json(response.body, "0/id")).to eq v1.id }
-    xit { expect(parse_json(response.body, "0/name")).to eq "Mickey Mouse" }
-    xit { expect(parse_json(response.body, "0/youtube_id")).to eq "abc1234" }
-    xit { expect(parse_json(response.body, "0/category_id")).to eq c1.id }
-    xit { expect(response.body).to have_json_type(String).at_path("0/created_at") }
+    it { expect(parse_json(response.body, "0/id")).to eq v1.id }
+    it { expect(parse_json(response.body, "0/name")).to eq "Mickey Mouse" }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq "abc1234" }
+    it { expect(parse_json(response.body, "0/category_id")).to eq c1.id }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
 
     # 2nd video from 1st category
-    xit { expect(parse_json(response.body, "1/id")).to eq v1.id }
-    xit { expect(parse_json(response.body, "1/name")).to eq "Donald" }
-    xit { expect(parse_json(response.body, "1/youtube_id")).to eq "zxy1234" }
-    xit { expect(parse_json(response.body, "1/category_id")).to eq c1.id }
-    xit { expect(response.body).to have_json_type(String).at_path("1/created_at") }
+    it { expect(parse_json(response.body, "1/id")).to eq v2.id }
+    it { expect(parse_json(response.body, "1/name")).to eq "Donald" }
+    it { expect(parse_json(response.body, "1/youtube_id")).to eq "zxy1234" }
+    it { expect(parse_json(response.body, "1/category_id")).to eq c1.id }
+    it { expect(response.body).to have_json_type(String).at_path("1/created_at") }
 
-    # 2nd video from 2nd category
-    xit { expect(parse_json(response.body, "2/id")).to eq v4.id }
-    xit { expect(parse_json(response.body, "2/name")).to eq "Donald2" }
-    xit { expect(parse_json(response.body, "2/youtube_id")).to eq "zxy12342" }
-    xit { expect(parse_json(response.body, "2/category_id")).to eq c1.id }
-    xit { expect(response.body).to have_json_type(String).at_path("2/created_at") }
+    # 1std video from 2nd category
+    it { expect(parse_json(response.body, "2/id")).to eq v3.id }
+    it { expect(parse_json(response.body, "2/name")).to eq "Mickey Mouse2" }
+    it { expect(parse_json(response.body, "2/youtube_id")).to eq "abc12342" }
+    it { expect(parse_json(response.body, "2/category_id")).to eq c2.id }
+    it { expect(response.body).to have_json_type(String).at_path("2/created_at") }
   end
   
   context "excluded videos" do
