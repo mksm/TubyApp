@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     resources :categories, only: :index
-    post 'videos', to: 'videos#index'       
+    resources :videos, only: :index
+    # post 'videos', to: 'videos#index'
   end
 end
