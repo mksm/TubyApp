@@ -15,13 +15,20 @@ class Api::VideosController < Api::BaseController
     @videos = @videos.where.not(:youtube_id => @excluded_youtube_ids) if params[:excluded_youtube_ids]
 
     # add included videos to the collection
-    # @videos = @videos + @included_videos
+    if @included_videos
+      @videos = @videos + @included_videos
+    end
 
     # search
     @videos = @videos.with_translations.where(' lower(video_translations.name) LIKE ?', "%#{params[:q].downcase}%") if params[:q]
 
     # paging
-    @videos = @videos.page(@page).per(@page_size)
+    if @included_videos
+      Kaminari.paginate_array(@videos).page(@page).per(@page_size)
+    else
+      @videos = @videos.page(@page).per(@page_size)
+    end
+
   end
 
   private
