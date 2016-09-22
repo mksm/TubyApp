@@ -4,19 +4,22 @@ class Api::VideosController < Api::BaseController
   before_action  :find_category_ids!, :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size
   
   def index
-    
+    # included
+    @included_videos = @videos.where(:youtube_id =>  @included_youtube_ids) if params[:included_youtube_ids]
+
+
     # categories
     @videos = @videos.where(:category_id => @category_ids)
     
-    # included
-    @videos = @videos.where(:youtube_id =>  @included_youtube_ids) if params[:included_youtube_ids]
-    
     # excluded
     @videos = @videos.where.not(:youtube_id => @excluded_youtube_ids) if params[:excluded_youtube_ids]
-    
+
+    # add included videos to the collection
+    # @videos = @videos + @included_videos
+
     # search
     @videos = @videos.with_translations.where(' lower(video_translations.name) LIKE ?', "%#{params[:q].downcase}%") if params[:q]
-    
+
     # paging
     @videos = @videos.page(@page).per(@page_size)
   end
