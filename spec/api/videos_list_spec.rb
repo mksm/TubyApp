@@ -3,19 +3,19 @@ require 'rails_helper'
 feature 'videos list' do
 
   context "no category_ids specified" do    
-    before(:each) { get "/api/videos.json", params: {page: 1} }
+    before(:each) { post "/api/videos.json", params: {page: 1} }
     
     it { expect(response.status).to eq 406 }
   end
   
   context "no page specified" do    
-    before(:each) { get "/api/videos.json", params: {category_ids: "1"} }
+    before(:each) { post "/api/videos.json", params: {category_ids: "1"} }
     
     it { expect(response.status).to eq 406 }
   end
 
   context "no videos" do    
-    before(:each) { get "/api/videos.json", params: {category_ids: "1", page: 1} }
+    before(:each) { post "/api/videos.json", params: {category_ids: "1", page: 1} }
     
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to eq "[]"}
@@ -27,7 +27,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1} }
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1} }
     
     it { expect(response.status).to eq 200 }
     it { expect(parse_json(response.body, "0/id")).to eq v1.id }
@@ -47,7 +47,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1} } 
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1} } 
     
     it { expect(response.status).to eq 200 }
     
@@ -65,7 +65,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {q: "ickey", category_ids: category_ids.join(","), page: 1} }
+    before(:each) { post "/api/videos.json", params: {q: "ickey", category_ids: category_ids.join(","), page: 1} }
     
     it { expect(response.status).to eq 200 }
     
@@ -85,7 +85,7 @@ feature 'videos list' do
 
     let(:category_ids) { [c1.id] }
 
-    before(:each) { get "/api/videos.json", params: {q: "dona", category_ids: category_ids.join(","), page: 1} }
+    before(:each) { post "/api/videos.json", params: {q: "dona", category_ids: category_ids.join(","), page: 1} }
 
     it { expect(response.status).to eq 200 }
 
@@ -105,7 +105,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {q: "Stelian", category_ids: category_ids.join(","), page: 1} }
+    before(:each) { post "/api/videos.json", params: {q: "Stelian", category_ids: category_ids.join(","), page: 1} }
     
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to have_json_size(0).at_path("/") }    
@@ -116,7 +116,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 2} }
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 2} }
     
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to have_json_size(1).at_path("/") }    
@@ -127,7 +127,7 @@ feature 'videos list' do
     
     let(:category_ids) { [c1.id] }
     
-    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 2, page_size: 10} }
+    before(:each) { post "/api/videos.json", params: {category_ids: category_ids.join(","), page: 2, page_size: 10} }
     
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to have_json_size(1).at_path("/") }    
