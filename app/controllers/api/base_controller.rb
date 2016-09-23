@@ -9,7 +9,7 @@ class Api::BaseController < ActionController::Base
     render :status => 406    
   end
   
-  before_filter :set_locale
+  before_action :set_locale
 
   private
     def set_locale
