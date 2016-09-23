@@ -24,7 +24,7 @@ class Api::VideosController < Api::BaseController
 
     # paging
     if @included_videos
-      Kaminari.paginate_array(@videos).page(@page).per(@page_size)
+      @videos = Kaminari.paginate_array(@videos).page(@page).per(@page_size)
     else
       @videos = @videos.page(@page).per(@page_size)
     end
