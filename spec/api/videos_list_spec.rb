@@ -132,7 +132,28 @@ feature 'videos list' do
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to have_json_size(1).at_path("/") }    
   end
-  
+
+  context "excluded videos" do
+    let(:c1) { create :category }
+    let!(:v1) { create(:video, name: "Mickey Mouse", youtube_id: "abc1234", category: c1) }
+    let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
+
+    let(:category_ids) { [c1.id] }
+    let(:excluded_youtube_ids) { [v1.youtube_id] }
+
+    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, excluded_youtube_ids:excluded_youtube_ids.join(",") } }
+
+    it { expect(response.status).to eq 200 }
+
+    it { expect(response.body).to have_json_size(1).at_path("/") }
+
+    it { expect(parse_json(response.body, "0/id")).to eq v2.id }
+    it { expect(parse_json(response.body, "0/name")).to eq "Donald" }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq "zxy1234" }
+    it { expect(parse_json(response.body, "0/category_id")).to eq c1.id }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
+  end
+
   context "included videos" do
     let(:c1) { create :category }
     let!(:v1) { create(:video, name: "Mickey Mouse", youtube_id: "abc1234", category: c1) }
@@ -141,14 +162,14 @@ feature 'videos list' do
     let(:c2) { create :category }
     let!(:v3) { create(:video, name: "Mickey Mouse2", youtube_id: "abc12342", category: c2) }
     let!(:v4) { create(:video, name: "Donald2", youtube_id: "zxy12342", category: c2) }
-    
+
     let(:category_ids) { [c1.id] }
     let(:included_youtube_ids) { [v3.youtube_id] }
-    
+
     before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, included_youtube_ids: included_youtube_ids.join(",")} }
-    
+
     it { expect(response.status).to eq 200 }
-    
+
     it { expect(response.body).to have_json_size(3).at_path("/") }
 
     # first video from 1st category
@@ -172,26 +193,33 @@ feature 'videos list' do
     it { expect(parse_json(response.body, "2/category_id")).to eq c2.id }
     it { expect(response.body).to have_json_type(String).at_path("2/created_at") }
   end
-  
-  context "excluded videos" do
+
+
+  context "included videos pagination" do
     let(:c1) { create :category }
     let!(:v1) { create(:video, name: "Mickey Mouse", youtube_id: "abc1234", category: c1) }
     let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
-    
-    let(:category_ids) { [c1.id] }
-    let(:excluded_youtube_ids) { [v1.youtube_id] }
 
-    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1, excluded_youtube_ids:excluded_youtube_ids.join(",") } }
+    let(:c2) { create :category }
+    let!(:v3) { create(:video, name: "Mickey Mouse2", youtube_id: "abc12342", category: c2) }
+    let!(:v4) { create(:video, name: "Donald2", youtube_id: "zxy12342", category: c2) }
+
+    let(:category_ids) { [c1.id] }
+    let(:included_youtube_ids) { [v3.youtube_id] }
+
+    before (:each){ get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 2, page_size: 2, included_youtube_ids: included_youtube_ids.join(",")}}
 
     it { expect(response.status).to eq 200 }
-    
-    it { expect(response.body).to have_json_size(1).at_path("/") }    
 
-    it { expect(parse_json(response.body, "0/id")).to eq v2.id }
-    it { expect(parse_json(response.body, "0/name")).to eq "Donald" }
-    it { expect(parse_json(response.body, "0/youtube_id")).to eq "zxy1234" }
-    it { expect(parse_json(response.body, "0/category_id")).to eq c1.id }    
-    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }    
+    it { expect(response.body).to have_json_size(1).at_path("/") }
+
+    # 1std video from 2nd category
+    it { expect(parse_json(response.body, "0/id")).to eq v3.id }
+    it { expect(parse_json(response.body, "0/name")).to eq "Mickey Mouse2" }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq "abc12342" }
+    it { expect(parse_json(response.body, "0/category_id")).to eq c2.id }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
+
   end
-  
+
 end
