@@ -17,6 +17,9 @@ class Api::VideosController < Api::BaseController
     # add included videos to the collection
     if @included_videos
       @videos = @videos + @included_videos
+
+      # sort the new array by date
+      @videos =  @videos.sort_by &:created_at
     end
 
     # search
