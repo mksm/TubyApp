@@ -222,4 +222,63 @@ feature 'videos list' do
 
   end
 
+  context "order videos by date added" do
+    let(:c1) { create :category }
+    let(:c2) { create :category }
+
+    let!(:v1) { create(:video, name: "Mickey Mouse", youtube_id: "abc1234", category: c1) }
+    let!(:v3) { create(:video, name: "Mickey Mouse2", youtube_id: "abc12342", category: c2) }
+    let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
+    let!(:v4) { create(:video, name: "Donald2", youtube_id: "zxy12342", category: c2) }
+
+    let(:category_ids) { [c1.id,c2.id] }
+
+    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), page: 1} }
+
+    it { expect(response.status).to eq 200 }
+
+    it { expect(response.body).to have_json_size(4).at_path("/") }
+
+    # first video
+    it { expect(parse_json(response.body, "0/id")).to eq v1.id }
+
+    # 2nd video
+    it { expect(parse_json(response.body, "1/id")).to eq v3.id }
+
+    # 3rd video
+    it { expect(parse_json(response.body, "2/id")).to eq v2.id }
+
+    # 4th video
+    it { expect(parse_json(response.body, "3/id")).to eq v4.id }
+  end
+
+  context "order filtered videos by date added" do
+    let(:c1) { create :category }
+    let(:c2) { create :category }
+
+    let!(:v1) { create(:video, name: "Mickey Mouse", youtube_id: "abc1234", category: c1) }
+    let!(:v3) { create(:video, name: "Mickey Mouse2", youtube_id: "abc12342", category: c2) }
+    let!(:v2) { create(:video, name: "Donald", youtube_id: "zxy1234", category: c1) }
+    let!(:v4) { create(:video, name: "Donald2", youtube_id: "zxy12342", category: c2) }
+
+    let(:category_ids) { [c2.id] }
+    let(:included_youtube_ids) { [v2.youtube_id] }
+
+    before(:each) { get "/api/videos.json", params: {category_ids: category_ids.join(","), included_youtube_ids: included_youtube_ids.join(","),page: 1} }
+
+    it { expect(response.status).to eq 200 }
+
+    it { expect(response.body).to have_json_size(3).at_path("/") }
+
+    # first video
+    it { expect(parse_json(response.body, "0/id")).to eq v3.id }
+
+    # 2nd video
+    it { expect(parse_json(response.body, "1/id")).to eq v2.id }
+
+    # 3rd video
+    it { expect(parse_json(response.body, "2/id")).to eq v4.id }
+  end
+
+
 end
