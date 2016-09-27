@@ -4,34 +4,20 @@ class Api::VideosController < Api::BaseController
   before_action  :find_category_ids!, :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size
   
   def index
-    # included
-    @included_videos = @videos.where(:youtube_id =>  @included_youtube_ids) if params[:included_youtube_ids]
-
-
     # categories
     @videos = @videos.where(:category_id => @category_ids)
     
     # excluded
     @videos = @videos.where.not(:youtube_id => @excluded_youtube_ids) if params[:excluded_youtube_ids]
 
-    # add included videos to the collection
-    if @included_videos
-      @videos = @videos + @included_videos
-
-      # sort the new array by date
-      @videos =  @videos.sort_by &:created_at
-    end
+    # included
+    @videos = @videos.or(Video.where(:youtube_id =>  @included_youtube_ids)) if params[:included_youtube_ids]
 
     # search
-    @videos = @videos.with_translations.where(' lower(video_translations.name) LIKE ?', "%#{params[:q].downcase}%") if params[:q]
+    @videos = @videos.where(' lower(video_translations.name) LIKE ?', "%#{params[:q].downcase}%") if params[:q]
 
-    # paging
-    if @included_videos
-      @videos = Kaminari.paginate_array(@videos).page(@page).per(@page_size)
-    else
-      @videos = @videos.page(@page).per(@page_size)
-    end
-
+    # sort and paginate
+    @videos =  @videos.with_translations.order(:created_at).page(@page).per(@page_size)
   end
 
   private
