@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post :create_multiple
     end
   end
+
+  get '/categories/notify', to: 'categories#notify'
   devise_for :users, :controllers => { :sessions => 'sessions' }
 
   root :to => 'videos#index'
