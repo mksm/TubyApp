@@ -3,6 +3,7 @@
 <h1>Categories</h1>
 
 <%= link_to 'New Category', new_category_path, class: "btn btn-default" %>
+<%= link_to 'Send Notification', categories_notify_path, class: "btn btn-primary",  data: { confirm: "This will notify all users. Continue ?" }%>
 
 <table class="table">
   <thead>
