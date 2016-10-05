@@ -41,15 +41,6 @@ class CategoriesController < ApplicationController
 
     request.set_form_data(data)
 
-    request.each_header do |key,data|
-      Rails.logger.debug("Request header : #{key} : #{data}")
-    end
-    Rails.logger.debug("Request host : #{request.uri}")
-    Rails.logger.debug("Request body : #{request.body}")
-    Rails.logger.debug "Request : #{request}"
-
-    response = http.request(request)
-
     Rails.logger.debug "Notification response: #{response.code}"
 
     if response.code == 200
