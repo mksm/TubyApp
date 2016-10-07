@@ -2,6 +2,11 @@ require 'rails_helper'
 
 feature 'categories list' do
 
+  before(:each) do
+    allow_any_instance_of(Api::BaseController).to receive(:access_id_and_secret_key).and_return(["ABC123", "DEF456"])
+    ApiAuthHelpers.set_credentials("ABC123", "DEF456")
+  end
+
   context "no categories" do    
     before(:each) { get "/api/categories.json" } 
     

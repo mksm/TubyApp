@@ -2,6 +2,11 @@ require 'rails_helper'
 
 feature 'videos list' do
 
+  before(:each) do
+    allow_any_instance_of(Api::BaseController).to receive(:access_id_and_secret_key).and_return(["ABC123", "DEF456"])
+    ApiAuthHelpers.set_credentials("ABC123", "DEF456")
+  end
+
   context "no category_ids specified" do    
     before(:each) { get "/api/videos.json", params: {page: 1} }
     
