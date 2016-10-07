@@ -30,6 +30,9 @@ gem 'globalize', github: 'globalize/globalize', ref: "38443bcd07da78b7b8a9433e4c
 gem 'globalize-accessors'
 gem 'activemodel-serializers-xml'
 
+# Background jobs
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'sqlite3'
@@ -37,6 +40,7 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
+  gem 'webmock', '~> 2.1'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.1'
   gem 'factory_girl_rails', '~> 4.7'
   gem 'capybara', '~> 2.7', '>= 2.7.1'

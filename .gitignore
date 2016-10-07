@@ -26,3 +26,6 @@
 # Ignore idea files
 .idea
 .DS_Store
+
+# Ignore environment variables
+/config/local_env.yml
