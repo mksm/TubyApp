@@ -15,6 +15,9 @@ gem 'devise', '~> 4.2'
 gem 'cancancan', '~> 1.15'
 gem 'simple_form', '~> 3.2', '>= 3.2.1'
 
+# Api Auth
+gem 'api-auth', '~> 2.0', '>= 2.0.1'
+
 # Configuration
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
