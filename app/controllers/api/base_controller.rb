@@ -2,11 +2,11 @@ class Api::BaseController < ActionController::Base
   protect_from_forgery with: :exception
   
   rescue_from CanCan::AccessDenied do |exception|
-    render :status => 403
+    head 403
   end
   
   rescue_from ActionController::ParameterMissing do |exception|
-    render :status => 406    
+    head 406    
   end
   
   before_action :authorize_client!, :set_locale

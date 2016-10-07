@@ -7,10 +7,14 @@ feature 'videos list' do
     ApiAuthHelpers.set_credentials("ABC123", "DEF456")
   end
 
-  context "no category_ids specified" do    
+  context "no category_ids specified" do 
+    let(:c1) { create :category }
+    let!(:v1) { create(:video, name: "Mickey", youtube_id: "abc1234", category: c1) }
+       
     before(:each) { get "/api/videos.json", params: {page: 1} }
     
     it { expect(response.status).to eq 406 }
+    it { expect(response.body).to eq "" }
   end
   
   context "no page specified" do    
