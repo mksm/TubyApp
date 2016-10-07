@@ -7,6 +7,9 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# mock out http requests
+require 'webmock/rspec'
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -74,11 +77,13 @@ RSpec.configure do |config|
   config.include FixtureHelpers
   
   config.before(:suite) {
+    WebMock.disable_net_connect!
     FactoryGirl.lint
     DatabaseCleaner.clean_with(:truncation)
   }
   
   config.before(:each) {
+    WebMock.reset!
     DatabaseCleaner.start
   }
     
