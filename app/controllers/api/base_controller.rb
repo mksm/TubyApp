@@ -14,6 +14,7 @@ class Api::BaseController < ActionController::Base
   private
     def authorize_client!
       access_id, secret_key = access_id_and_secret_key
+
       head(:unauthorized) unless access_id && secret_key && ApiAuth.authentic?(request, secret_key)
     end
     
@@ -21,9 +22,9 @@ class Api::BaseController < ActionController::Base
       access_id = ApiAuth.access_id(request)
       secret_key = nil
       if access_id == ENV['android_access_id']
-        secret_key = ENV['android_secret_id']
+        secret_key = ENV['android_secret_key']
       elsif access_id == ENV['ios_access_id']
-        secret_key = ENV['ios_secret_id']
+        secret_key = ENV['ios_secret_key']
       end
       return access_id, secret_key
     end
