@@ -1,10 +1,8 @@
 class SendNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
-    return unless ENV['NOTIFIABLE_URL']
-    
-    message = 'We\'ve added some new categories'
+  def perform(message)
+    return unless ENV['NOTIFIABLE_URL']    
     send_notification(ENV['NOTIFIABLE_URL'], ENV['NOTIFIABLE_ACCESS_ID'], ENV['NOTIFIABLE_APP_ID'], "en", message)
   end
   
