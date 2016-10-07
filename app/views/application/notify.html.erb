@@ -1,0 +1,9 @@
+<%= form_tag( url: notify_path ) do  %>
+
+  <div class="form-group string optional category_name_en">
+    <%= label_tag :message %>
+    <%= text_field_tag :message, "We've added new videos", class: "string optional form-control" %>
+  </div>
+
+  <%= submit_tag "Send", class: "btn btn-large btn-primary" %>
+<% end %>

@@ -25,5 +25,8 @@ module STCYoutubekidsCms
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+    
+    # Use delayed job
+    config.active_job.queue_adapter = :delayed_job
   end
 end
