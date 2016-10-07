@@ -9,9 +9,24 @@ class Api::BaseController < ActionController::Base
     render :status => 406    
   end
   
-  before_action :set_locale
+  before_action :authorize_client!, :set_locale
 
   private
+    def authorize_client!
+      access_id, secret_key = access_id_and_secret_key
+      head(:unauthorized) unless access_id && secret_key && ApiAuth.authentic?(request, secret_key)
+    end
+    
+    def access_id_and_secret_key
+      access_id = ApiAuth.access_id(request)
+      secret_key = nil
+      if access_id == ENV['android_access_id']
+        secret_key = ENV['android_secret_id']
+      elsif access_id == ENV['ios_access_id']
+        secret_key = ENV['ios_secret_id']
+      end
+    end
+  
     def set_locale
       I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
     end
