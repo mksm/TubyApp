@@ -25,6 +25,7 @@ class Api::BaseController < ActionController::Base
       elsif access_id == ENV['ios_access_id']
         secret_key = ENV['ios_secret_id']
       end
+      return access_id, secret_key
     end
   
     def set_locale
