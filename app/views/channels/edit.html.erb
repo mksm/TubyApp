@@ -1,6 +1,5 @@
 <h1>Editing Channel</h1>
 
-<%= render 'form', channel: @channel %>
+<%= render 'form', channel: @channel %><br>
 
-<%= link_to 'Show', @channel %> |
-<%= link_to 'Back', channels_path %>
+<%= link_to 'Delete Channel', @channel, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure you want to delete this channel?" } %>
