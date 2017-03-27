@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007091034) do
+ActiveRecord::Schema.define(version: 20170324153820) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(version: 20161007091034) do
     t.string   "name"
     t.index ["category_id"], name: "index_category_translations_on_category_id"
     t.index ["locale"], name: "index_category_translations_on_locale"
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.string   "name"
+    t.string   "youtube_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
