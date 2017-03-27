@@ -18,4 +18,11 @@ RSpec.describe "channels/edit", type: :view do
       assert_select "input#channel_youtube_id[name=?]", "channel[youtube_id]"
     end
   end
+  it "renders a delete channel button" do
+    channelId = Channel.find_by_name("MyString").id
+    render
+    assert_select "a", :text => "Delete Channel", :count => 1
+    assert_select "a[href=?]", "/channels/#{channelId}"
+    assert_select "a[data-method=?]", "delete"
+  end
 end
