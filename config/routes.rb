@@ -11,10 +11,10 @@ Rails.application.routes.draw do
 
   get '/notify', to: 'application#notify'
   post '/notify', to: 'application#notify'
-  
+
   devise_for :users, :controllers => { :sessions => 'sessions' }
 
-  root :to => 'videos#index'
+  root :to => 'channels#index'
 
   namespace 'api' do
     resources :categories, only: :index
