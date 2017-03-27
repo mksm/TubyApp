@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :channels
   resources :categories, except: :show
   resources :videos, except: :show do
     collection do
