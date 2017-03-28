@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe "channels/edit", type: :view do
   before(:each) do
     @channel = assign(:channel, Channel.create!(
-      :name => "MyString",
+      :name_en => "MyString",
+      :name_ar => "سلسلة بلدي",
       :youtube_id => "MyString"
     ))
   end
@@ -13,7 +14,8 @@ RSpec.describe "channels/edit", type: :view do
 
     assert_select "form[action=?][method=?]", channel_path(@channel), "post" do
 
-      assert_select "input#channel_name[name=?]", "channel[name]"
+      assert_select "input#channel_name_en[name=?]", "channel[name_en]"
+      assert_select "input#channel_name_ar[name=?]", "channel[name_ar]"
 
       assert_select "input#channel_youtube_id[name=?]", "channel[youtube_id]"
     end
