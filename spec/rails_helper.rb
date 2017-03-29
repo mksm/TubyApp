@@ -63,36 +63,35 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  
+
   # Remove need for factory girl prefix
   config.include FactoryGirl::Syntax::Methods
-  
+
   # Add request helpers for API tests
   config.include RSpec::Rails::RequestExampleGroup, :type => :request, :file_path => /spec\/api/
-  
+
   # Add json spec helpers
   config.include JsonSpec::Helpers
-  
+
   # devise helpers for controller specs
   config.include Devise::Test::ControllerHelpers, :type => :controller
-  
+
   # Includes the login_as method
   config.include Warden::Test::Helpers
-  
+
   # helper for fixture files
   config.include FixtureHelpers
-  
+
   config.before(:suite) {
     WebMock.disable_net_connect!
     FactoryGirl.lint
     DatabaseCleaner.clean_with(:truncation)
   }
-  
+
   config.before(:each) {
     WebMock.reset!
     DatabaseCleaner.start
   }
-    
   config.after(:each) {
     DatabaseCleaner.clean
   }
