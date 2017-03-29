@@ -11,10 +11,6 @@ RSpec.describe ChannelsController, type: :routing do
       expect(:get => "/channels/new").to route_to("channels#new")
     end
 
-    it "routes to #show" do
-      expect(:get => "/channels/1").to route_to("channels#show", :id => "1")
-    end
-
     it "routes to #edit" do
       expect(:get => "/channels/1/edit").to route_to("channels#edit", :id => "1")
     end
