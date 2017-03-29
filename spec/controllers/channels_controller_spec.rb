@@ -59,6 +59,7 @@ RSpec.describe ChannelsController, type: :controller do
     describe "POST #create" do
         context "with valid params" do
           it "creates a new Channel" do
+            mocks.stub_request(:get, "https://www.googleapis.com/youtube/v3/channels?forUsername=&key=AIzaSyDtwbo5W5lJOeab2MOD775hI3HieI09ONc&part=id").with(:headers => {'Content-Length'=>'0', 'User-Agent'=>'Yt::Request (gzip)'}).to_return(:status => 200, :body => "", :headers => {})
             expect {
               post :create, params: {channel: valid_attributes}
             }.to change(Channel, :count).by(1)
