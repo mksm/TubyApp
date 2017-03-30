@@ -55,6 +55,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'launchy'
   gem 'simplecov', '~> 0.12.0', require: false
+  gem 'faker'
 end
 
 group :development do

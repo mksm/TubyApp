@@ -12,7 +12,7 @@
       <th>Name (en)</th>
       <th>Name (ar)</th>
       <th>Youtube ID</th>
-      <th>Category</th>
+      <th>Channel</th>
     </tr>
   </thead>
 
@@ -22,7 +22,7 @@
         <td><%= link_to video.name_en, edit_video_path(video) %></td>
         <td><%= video.name_ar %></td>
         <td><%= video.youtube_id %></td>
-        <td><%= video.category.name %></td>
+        <td><%= video.channel.name %></td>
       </tr>
     <% end %>
   </tbody>
