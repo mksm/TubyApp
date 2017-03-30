@@ -1,13 +1,6 @@
 Rails.application.routes.draw do
   resources :channels, except: :show
-  resources :videos, except: :show do
-    collection do
-      get :upload_csv
-      post :upload_csv
-      post :create_multiple
-    end
-  end
-
+  resources :videos, except: [:show, :new]
   get '/notify', to: 'application#notify'
   post '/notify', to: 'application#notify'
 
@@ -18,6 +11,5 @@ Rails.application.routes.draw do
   namespace 'api' do
     resources :categories, only: :index
     resources :videos, only: :index
-    # post 'videos', to: 'videos#index'
   end
 end
