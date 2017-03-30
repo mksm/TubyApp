@@ -4,3 +4,14 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+if Rails.env.test? || Rails.env.development?
+  require 'rspec/core/rake_task'
+
+  namespace :ci do
+    desc 'Run specs'
+    RSpec::Core::RakeTask.new(:spec)
+
+    desc 'Run all CI tests'
+    task test: [:spec]
+  end
+end
