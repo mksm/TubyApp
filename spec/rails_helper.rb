@@ -7,6 +7,12 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# Add coverage
+require 'simplecov'
+SimpleCov.start 'rails'
+SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+SimpleCov.minimum_coverage 74
+
 # mock out http requests
 require 'webmock/rspec'
 
