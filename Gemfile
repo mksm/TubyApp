@@ -54,6 +54,7 @@ group :test do
   gem 'json_spec', '~> 1.1', '>= 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'launchy'
+  gem 'faker'
 end
 
 group :development do
