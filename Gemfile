@@ -51,6 +51,7 @@ group :test do
   gem 'json_spec', '~> 1.1', '>= 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'launchy'
+  gem 'simplecov', '~> 0.12.0', require: false
 end
 
 group :development do
@@ -64,5 +65,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :production, :staging do
   gem 'rails_12factor'
-  gem 'pg'
+  gem 'pg', '0.19.0'
 end
