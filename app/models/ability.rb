@@ -4,9 +4,9 @@ class Ability
   def initialize(user)
     if user
       can :manage, Video
-      can :manage, Category
-    else 
-      can :read, Category
+      can :manage, Channel
+    else
+      can :read, Channel
       can :read, Video
     end
   end
