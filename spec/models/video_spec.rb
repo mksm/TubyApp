@@ -15,9 +15,9 @@ RSpec.describe Video, type: :model do
   end
 
   context "a youtube id already exists" do
-    let!(:v1) { FactoryGirl.create(:video, youtube_id: "abc123") }
+    let!(:v1) { FactoryGirl.create(:video, youtube_id: "abcd12345") }
 
-    it { expect( FactoryGirl.build(:video, youtube_id: "abc123") ).not_to be_valid }
+    it { expect( FactoryGirl.build(:video, youtube_id: "abcd12345") ).not_to be_valid }
   end
 =begin
   describe "#upload_csv" do
