@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :channels, except: :show
-  resources :videos, except: [:show, :new]
+  resources :videos, except: :show
   get '/notify', to: 'application#notify'
   post '/notify', to: 'application#notify'
 

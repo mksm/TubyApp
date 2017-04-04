@@ -9,15 +9,4 @@ class Video < ApplicationRecord
 
   translates :name
   globalize_accessors
-
-  def self.import_csv(csv_text)
-    videos = []
-    csv = CSV.parse(csv_text, :headers => true)
-    csv.each do |unstriped_row|
-      row = {}
-      unstriped_row.each{|k, v| row[k.strip] = v.strip}
-      videos << Video.new(row.to_hash)
-    end
-    videos
-  end
 end
