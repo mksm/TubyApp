@@ -1,1 +1,0 @@
-json.array! @categories, :id, :name, :videos_count, :category_image_url, :created_at
