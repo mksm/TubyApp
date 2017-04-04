@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   root :to => 'channels#index'
 
   namespace 'api' do
-    resources :categories, only: :index
     resources :videos, only: :index
   end
 end
