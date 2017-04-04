@@ -1,3 +1,15 @@
+class YoutubeChannelValidator < ActiveModel::Validator
+
+  def validate(record)
+    if Rails.env.test? || Rails.env.development?
+      return true
+    end
+    yt_channel = Yt::Channel.new id: record.youtube_id
+    yt_channel.video_count
+  end
+end
+
+
 class ChannelsController < ApplicationController
   load_and_authorize_resource
   before_action :set_channel, only: [:edit, :update, :destroy]
