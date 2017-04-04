@@ -19,38 +19,4 @@ RSpec.describe Video, type: :model do
 
     it { expect( FactoryGirl.build(:video, youtube_id: "abcd12345") ).not_to be_valid }
   end
-=begin
-  describe "#upload_csv" do
-    context "with a single video" do
-      let!(:category) { create(:category) }
-
-      before(:each) { @videos = Video.import_csv(fixture_csv.read) }
-
-      it { expect(@videos.count).to eq 1 }
-      it { expect(Video.count).to eq 0 }
-    end
-
-    context "with an invalid video for a category that doesnt exist" do
-      before(:each) { @videos = Video.import_csv(fixture_csv.read) }
-
-      it { expect(Video.count).to eq 0 }
-      it { expect(@videos.count).to eq 1 }
-      it { expect(@videos[0].valid?).to eq false }
-    end
-
-    context "with field spacing" do
-      let!(:category) { create(:category) }
-
-      before(:each) { @videos = Video.import_csv(fixture_csv("videos_3_spaced_fields.csv").read) }
-
-      it { expect(Video.count).to eq 0 }
-      it { expect(@videos.count).to eq 1 }
-      xit { expect(@videos[0].valid?).to eq true }
-      xit { expect(@videos[0].name).to eq "Minions Home alone" }
-      xit { expect(@videos[0].youtube_id).to eq "KKYXpcbdgFc" }
-      xit { expect(@videos[0].category_id).to eq 1 }
-
-    end
-  end
-=end
 end
