@@ -1,9 +1,8 @@
-=begin
 require 'rails_helper'
 
 describe ApplicationController do
   describe 'POST #notify' do
-    let!(:category) { create(:category) }
+    let!(:channel) { create(:channel) }
     let(:user) { create(:user) }
 
     before do
@@ -15,4 +14,4 @@ describe ApplicationController do
     it { expect(Delayed::Job.count).to eq 1 }
     it { expect(Delayed::Job.first.payload_object.job_data["arguments"][0]).to eq "We've added new videos" }
   end
-=end
+end
