@@ -1,9 +1,13 @@
 class Api::VideosController < Api::BaseController
   load_and_authorize_resource
 
-  before_action :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size
+  before_action :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size, :find_channel_ids!
 
   def index
+    #all
+    @videos = Video.all
+    #by channel
+    @videos = @videos.where(:channel_id => @channel_ids) if params[:channel_ids]
     # excluded
     @videos = @videos.where.not(:youtube_id => @excluded_youtube_ids) if params[:excluded_youtube_ids]
 
@@ -31,12 +35,17 @@ class Api::VideosController < Api::BaseController
   end
 
     def find_page!
-      @page = params[:page]
       raise ActionController::ParameterMissing.new(:page) unless params[:page]
+      @page = params[:page]
     end
 
     def find_page_size
       @page_size = params[:page_size] || 50
+    end
+
+    def find_channel_ids!
+      raise ActionController::ParameterMissing.new(:page) unless params[:channel_ids]
+      @channel_ids = params[:channel_ids].split(",")
     end
 
 end
