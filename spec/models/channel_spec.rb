@@ -18,12 +18,13 @@ RSpec.describe Channel, type: :model do
       it { expect(subject).to_not be_valid }
     end
   end
-
-  it "videos are not counted after destroy" do
-    channel = FactoryGirl.create(:channel)
-    first_video = FactoryGirl.create(:video, channel_id: channel.id)
-    second_video = FactoryGirl.create(:video, channel_id: channel.id)
-    second_video.destroy
-    expect(channel.videos.count).to eq(1)
+  
+  describe '#videos' do
+    context 'invalid' do
+      subject { create(:channel, videos: create_list(:video, 2)) }
+      before(:each) { subject.videos.last.destroy }
+      it { expect(subject.videos.count).to eq 1}
+    end
   end
+
 end
