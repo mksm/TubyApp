@@ -1,5 +1,0 @@
-<h1>Editing Category</h1>
-
-<%= render 'form', category: @category %><br>
-
-<%= link_to 'Delete Category', @category, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure? This will delete #{@category.videos.count} video(s)." } %>

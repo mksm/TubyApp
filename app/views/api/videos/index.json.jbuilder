@@ -1,1 +1,1 @@
-json.array! @videos, :id, :name, :youtube_id, :category_id, :created_at
+json.array! @videos, :id, :name, :youtube_id, :channel_id, :created_at

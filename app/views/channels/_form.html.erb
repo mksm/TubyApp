@@ -1,9 +1,8 @@
-<%= simple_form_for(video) do |f| %>
+<%= simple_form_for(channel) do |f| %>
 
   <%= f.input :name_en %>
   <%= f.input :name_ar %>
   <%= f.input :youtube_id %>
-  <%= f.association :channel %>
 
   <%= f.submit :class => "btn btn-primary" %>
 <% end %>

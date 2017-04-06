@@ -2,17 +2,13 @@
 
 <h1>Videos</h1>
 
-<%= link_to 'New Video', new_video_path, class: "btn btn-default" %>
-
-<%= link_to 'Upload CSV', upload_csv_videos_path, class: "btn btn-default" %>
-
 <table class="table">
   <thead>
     <tr>
       <th>Name (en)</th>
       <th>Name (ar)</th>
       <th>Youtube ID</th>
-      <th>Category</th>
+      <th>Channel</th>
     </tr>
   </thead>
 
@@ -22,7 +18,7 @@
         <td><%= link_to video.name_en, edit_video_path(video) %></td>
         <td><%= video.name_ar %></td>
         <td><%= video.youtube_id %></td>
-        <td><%= video.category.name %></td>
+        <td><%= video.channel.name %></td>
       </tr>
     <% end %>
   </tbody>

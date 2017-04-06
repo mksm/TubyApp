@@ -41,6 +41,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
+# Youtube library
+gem 'yt', '~> 0.28.0'
+
 group :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
   gem 'webmock', '~> 2.1'
@@ -52,6 +55,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'launchy'
   gem 'simplecov', '~> 0.12.0', require: false
+  gem 'faker'
 end
 
 group :development do
