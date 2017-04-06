@@ -18,7 +18,6 @@ class ChannelsController < ApplicationController
       flash[:alert] = "There is an error in the channel's youtube id. Please correct it before saving."
       render :new
     rescue => e
-    @channel = Channel.new(channel_params)
       flash[:alert] = "There has been an error in the saving proccess. Please try again."
       render :new
     end
