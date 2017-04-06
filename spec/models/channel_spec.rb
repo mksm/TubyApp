@@ -14,13 +14,13 @@ RSpec.describe Channel, type: :model do
     channel = FactoryGirl.create(:channel)
     first_video = FactoryGirl.create(:video, channel_id: channel.id)
     second_video = FactoryGirl.create(:video, channel_id: channel.id)
-    expect(channel.videos_count).to eq(2)
+    expect(channel.videos.count).to eq(2)
   end
   it "videos are not counted after destroy" do
     channel = FactoryGirl.create(:channel)
     first_video = FactoryGirl.create(:video, channel_id: channel.id)
     second_video = FactoryGirl.create(:video, channel_id: channel.id)
     second_video.destroy
-    expect(channel.videos_count).to eq(1)
+    expect(channel.videos.count).to eq(1)
   end
 end

@@ -8,10 +8,6 @@ class Channel < ApplicationRecord
   translates :name
   globalize_accessors
 
-  def videos_count
-    videos.count
-  end
-  
   private
   def youtube_id_is_valid_on_youtube
     return if Rails.env.test? || Rails.env.development?
