@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Channel, type: :model do
-  it "has a valid factory" do
-    expect( FactoryGirl.create(:channel) ).to be_valid
-  end
-  
+
   describe '#name' do
     context 'invalid' do
       subject { build(:channel, name: nil) }
