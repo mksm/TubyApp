@@ -1,11 +1,6 @@
 class ChannelsController < ApplicationController
   load_and_authorize_resource
 
-  # GET /channels/1/edit
-  def edit
-  end
-
-  # POST /channels
   def create
     begin
     if @channel.save
@@ -23,7 +18,6 @@ class ChannelsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /channels/1
   def update
     begin
     if @channel.update(channel_params)
@@ -41,14 +35,12 @@ class ChannelsController < ApplicationController
     end
   end
 
-  # DELETE /channels/1
   def destroy
     @channel.destroy
     redirect_to channels_url, notice: 'Channel was successfully destroyed.'
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
     def channel_params
       params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
     end
