@@ -1,19 +1,9 @@
-class YoutubeChannelValidator < ActiveModel::Validator
-
-  def validate(record)
-    if Rails.env.test? || Rails.env.development?
-      return true
-    end
-    yt_channel = Yt::Channel.new id: record.youtube_id
-    yt_channel.video_count
-  end
-end
 class Channel < ApplicationRecord
   has_many :videos, dependent: :destroy
 
   validates :name, length: { minimum: 3 }, presence: true
   validates :youtube_id, length: { minimum: 5 }, presence: true, uniqueness: true
-  validates_with YoutubeChannelValidator
+  validate :youtube_id_is_valid_on_youtube
 
   translates :name
   globalize_accessors
@@ -21,5 +11,15 @@ class Channel < ApplicationRecord
   def videos_count
     videos.count
   end
-
+  
+  private
+  def youtube_id_is_valid_on_youtube
+    return if Rails.env.test? || Rails.env.development?
+    
+    begin
+      Yt::Channel.new(id: youtube_id).video_count
+    rescue Yt::Errors::NoItems => e
+      errors.add(:youtube_id, "can't be found")
+    end
+  end
 end
