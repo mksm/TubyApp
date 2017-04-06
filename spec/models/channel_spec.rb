@@ -11,9 +11,14 @@ RSpec.describe Channel, type: :model do
       it { expect(subject).to_not be_valid }
     end
   end
-  it "is invalid without a youtube_id" do
-    expect( build(:channel, youtube_id: nil) ).not_to be_valid
+  
+  describe '#youtube_id' do
+    context 'invalid' do
+      subject { build(:channel, youtube_id: nil) }
+      it { expect(subject).to_not be_valid }
+    end
   end
+
   it "has a valid videos counter method" do
     channel = FactoryGirl.create(:channel)
     first_video = FactoryGirl.create(:video, channel_id: channel.id)
