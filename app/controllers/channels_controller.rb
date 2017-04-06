@@ -41,7 +41,7 @@ class ChannelsController < ApplicationController
   end
 
   private
-    def channel_params
-      params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
-    end
+  def channel_params
+    params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
+  end
 end
