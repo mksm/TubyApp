@@ -16,7 +16,7 @@ class Channel < ApplicationRecord
     get_only_new_videos.each do |video|
       new_video = Video.new(video)
       new_video.channel_id = id
-      new_video.save!
+      new_video.save
     end
   end
   def get_only_new_videos
@@ -37,20 +37,16 @@ class Channel < ApplicationRecord
   def get_videos_from_yt
     yt_channel = Yt::Channel.new id: youtube_id
     result = []
-    yt_channel.videos.each do |video|
-      result.push({:name_en=>video.title, :youtube_id=>video.id})
-    end
+    yt_channel.videos.each { |video| result.push({:name_en=>video.title, :youtube_id=>video.id}) }
     result
   end
   def delete_videos_from_channel
-    get_videos_to_delete.each do |video_id|
-      Video.find_by_youtube_id(video_id).destroy!
-    end
+    get_videos_to_delete.each { |video_id| Video.find_by_youtube_id(video_id).destroy! } unless get_videos_to_delete.empty?
   end
   def get_videos_to_delete
     videos.map {|x| x.youtube_id} - get_videos_from_yt.map {|x| x[:youtube_id]}
   end
-  
+
   private
   def youtube_id_is_valid_on_youtube
     return if Rails.env.test? || Rails.env.development?
