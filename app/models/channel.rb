@@ -45,6 +45,14 @@ class Channel < ApplicationRecord
   end
   def get_videos_to_delete
     videos.map {|x| x.youtube_id} - get_videos_from_yt.map {|x| x[:youtube_id]}
+
+  def videos_count
+    videos.count
+  end
+
+  def channel_image_url
+    return nil if videos.count == 0
+    "http://img.youtube.com/vi/#{videos.first.youtube_id}/0.jpg"
   end
 
   private
