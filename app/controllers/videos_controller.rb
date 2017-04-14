@@ -16,7 +16,7 @@ class VideosController < ApplicationController
 
   private
     def video_params
-      params.require(:video).permit(:name_en, :name_ar, :youtube_id,:channel_id)
+      params.require(:video).permit(:name_en, :name_ar, :youtube_id, :channel_id, :hidden)
     end
 
     def multiple_video_params(video_params)
