@@ -1,3 +1,5 @@
+require 'csv'
+
 class Channel < ApplicationRecord
   has_many :videos, dependent: :destroy
 
@@ -57,14 +59,12 @@ class Channel < ApplicationRecord
   end
 
   def self.import_csv(csv_text)
-    channels = []
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |unstriped_row|
       row = {}
       unstriped_row.each{|k, v| row[k.strip] = v.strip}
-      channels << Channel.new(row.to_hash)
+      Channel.create(row.to_hash)
     end
-    channels
   end
 
   private
