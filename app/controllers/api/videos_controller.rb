@@ -5,7 +5,7 @@ class Api::VideosController < Api::BaseController
 
   def index
     #all
-    @videos = Video.all
+    @videos = Video.where(:hidden => false)
     #by channel
     @videos = @videos.where(:channel_id => @channel_ids) if params[:channel_ids]
     # excluded
