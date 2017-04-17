@@ -4,8 +4,8 @@
   <%= f.input :name_ar %>
   <%= f.input :youtube_id %>
   <%= f.association :channel %>
-  <%= label_tag(:hidden, "Mark only if the video should not be available:") %>
-  <%= f.check_box :hidden %>
+  <%= label_tag(:hidden, "Mark only if the video should not be available") %>
+  <%= f.input :hidden %>
   <br>
 
   <%= f.submit :class => "btn btn-primary" %>
