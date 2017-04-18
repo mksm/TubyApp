@@ -287,4 +287,27 @@ feature 'videos list' do
     it { expect(parse_json(response.body, "2/id")).to eq v4.id }
   end
 
+  context "retrieve trending videos" do
+    let(:c1) { create :channel }
+
+    let!(:v1) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v2) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v3) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-9.days) }
+    let!(:v4) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-8.days) }
+
+    let(:channel_ids) { [c1.id] }
+
+    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, trending:1} }
+
+    it { expect(response.status).to eq 200 }
+
+    it { expect(response.body).to have_json_size(2).at_path("/") }
+
+    # first video
+    it { expect(parse_json(response.body, "0/id")).to eq v1.id }
+
+    # 2nd video
+    it { expect(parse_json(response.body, "1/id")).to eq v2.id }
+  end
+
 end
