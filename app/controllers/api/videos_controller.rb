@@ -1,11 +1,13 @@
 class Api::VideosController < Api::BaseController
   load_and_authorize_resource
 
-  before_action :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size, :find_channel_ids!
+  before_action :find_included_youtube_ids, :find_excluded_youtube_ids,:find_page!, :find_page_size, :find_channel_ids!, :find_trending
 
   def index
     #all
     @videos = Video.where(:hidden => false)
+    #trending
+    @videos = @videos.trending if @trending
     #by channel
     @videos = @videos.where(:channel_id => @channel_ids) if params[:channel_ids]
     # excluded
@@ -34,18 +36,24 @@ class Api::VideosController < Api::BaseController
     end
   end
 
-    def find_page!
-      raise ActionController::ParameterMissing.new(:page) unless params[:page]
-      @page = params[:page]
-    end
+  def find_page!
+    raise ActionController::ParameterMissing.new(:page) unless params[:page]
+    @page = params[:page]
+  end
 
-    def find_page_size
-      @page_size = params[:page_size] || 50
-    end
+  def find_page_size
+    @page_size = params[:page_size] || 50
+  end
 
-    def find_channel_ids!
-      raise ActionController::ParameterMissing.new(:page) unless params[:channel_ids]
-      @channel_ids = params[:channel_ids].split(",")
+  def find_channel_ids!
+    raise ActionController::ParameterMissing.new(:page) unless params[:channel_ids]
+    @channel_ids = params[:channel_ids].split(",")
+  end
+
+  def find_trending
+    if params[:trending]
+      @trending = params[:trending]
     end
+  end
 
 end
