@@ -45,6 +45,7 @@ class Channel < ApplicationRecord
   end
   def get_videos_to_delete
     videos.map {|x| x.youtube_id} - get_videos_from_yt.map {|x| x[:youtube_id]}
+  end
 
   def videos_count
     videos.count
@@ -58,7 +59,6 @@ class Channel < ApplicationRecord
   private
   def youtube_id_is_valid_on_youtube
     return if Rails.env.test? || Rails.env.development?
-
     begin
       Yt::Channel.new(id: youtube_id).video_count
     rescue Yt::Errors::NoItems => e
