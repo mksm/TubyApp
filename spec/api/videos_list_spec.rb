@@ -287,4 +287,38 @@ feature 'videos list' do
     it { expect(parse_json(response.body, "2/id")).to eq v4.id }
   end
 
+  context "hidden videos" do
+    let(:c1) { create :channel }
+    let(:c2) { create :channel }
+
+    let!(:v1) { FactoryGirl.create(:video, channel: c1, hidden: true) }
+    let!(:v2) { FactoryGirl.create(:video, channel: c1) }
+    
+    let!(:v3) { FactoryGirl.create(:video, channel: c2) }
+    let!(:v4) { FactoryGirl.create(:video, channel: c2, hidden: true) }
+
+    let(:channel_ids) { [c1.id] }
+    let(:included_youtube_ids) { [v3.youtube_id] }
+
+    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, included_youtube_ids: included_youtube_ids.join(",")} }
+
+    it { expect(response.status).to eq 200 }
+
+    it { expect(response.body).to have_json_size(2).at_path("/") }
+
+    # first video from 1st channel
+    it { expect(parse_json(response.body, "0/id")).to eq v2.id }
+    it { expect(parse_json(response.body, "0/name")).to eq v2.name }
+    it { expect(parse_json(response.body, "0/youtube_id")).to eq v2.youtube_id }
+    it { expect(parse_json(response.body, "0/channel_id")).to eq c1.id }
+    it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
+
+    # 1std video from 2nd channel
+    it { expect(parse_json(response.body, "1/id")).to eq v3.id }
+    it { expect(parse_json(response.body, "1/name")).to eq v3.name }
+    it { expect(parse_json(response.body, "1/youtube_id")).to eq v3.youtube_id }
+    it { expect(parse_json(response.body, "1/channel_id")).to eq c2.id }
+    it { expect(response.body).to have_json_type(String).at_path("1/created_at") }
+  end
+
 end

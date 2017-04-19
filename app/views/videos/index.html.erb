@@ -7,6 +7,7 @@
     <tr>
       <th>Name (en)</th>
       <th>Name (ar)</th>
+      <th>Available</th>
       <th>Youtube ID</th>
       <th>Channel</th>
     </tr>
@@ -17,6 +18,11 @@
       <tr>
         <td><%= link_to video.name_en, edit_video_path(video) %></td>
         <td><%= video.name_ar %></td>
+        <%if video.hidden%>
+          <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></td>
+        <%else%>
+          <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></td>
+        <% end %>
         <td><%= video.youtube_id %></td>
         <td><%= video.channel.name %></td>
       </tr>
