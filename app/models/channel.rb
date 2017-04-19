@@ -1,3 +1,5 @@
+require 'csv'
+
 class Channel < ApplicationRecord
   has_many :videos, dependent: :destroy
 
@@ -54,6 +56,15 @@ class Channel < ApplicationRecord
   def channel_image_url
     return nil if videos.count == 0
     "http://img.youtube.com/vi/#{videos.first.youtube_id}/0.jpg"
+  end
+
+  def self.import_csv(csv_text)
+    csv = CSV.parse(csv_text, :headers => true)
+    csv.each do |unstriped_row|
+      row = {}
+      unstriped_row.each{|k, v| row[k.strip] = v.strip}
+      Channel.create(row.to_hash)
+    end
   end
 
   private

@@ -102,4 +102,23 @@ RSpec.describe Channel, type: :model do
       end
     end
   end
+
+  describe "#upload_csv" do
+    context "with a single channel" do
+      before(:each) { Channel.import_csv(fixture_csv) }
+      it { expect(Channel.count).to eq 1 }
+    end
+
+    context "with a multiple channels" do
+      before(:each) { Channel.import_csv(fixture_csv('channels_2.csv')) }
+      it { expect(Channel.count).to eq 3 }
+    end
+
+    context "with field spacing" do
+      before(:each) { Channel.import_csv(fixture_csv("channels_spaced_fields.csv")) }
+      it { expect(Channel.count).to eq 1 }
+      it { expect(Channel.first.name).to eq "Kids TV Baby" }
+      it { expect(Channel.first.youtube_id).to eq "UC2U_C1EylcbiIv62MT0Uzkw" }
+    end
+  end
 end
