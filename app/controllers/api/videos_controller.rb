@@ -51,7 +51,7 @@ class Api::VideosController < Api::BaseController
   end
 
   def find_trending
-    if params[:trending]
+    if params[:trending] == "true"
       @trending = params[:trending]
     end
   end
