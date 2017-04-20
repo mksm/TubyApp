@@ -17,6 +17,11 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def update_videos_in_channel
+    @channel.update_videos_in_channel
+    redirect_to videos_url, notice: 'The videos list was successfully updated.'
+  end
+
   def destroy
     @channel.destroy
     redirect_to channels_url, notice: 'Channel was successfully destroyed.'
@@ -26,7 +31,7 @@ class ChannelsController < ApplicationController
   def channel_params
     params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
   end
-  
+
   def render_with_alert(template)
     flash[:alert] = @channel.errors.full_messages.to_sentence
     render template
