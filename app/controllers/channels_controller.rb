@@ -22,6 +22,14 @@ class ChannelsController < ApplicationController
     redirect_to videos_url, notice: 'The videos list was successfully updated.'
   end
 
+  def upload_csv
+    if request.post?
+      csv_text = params[:csv_file].read
+      @channels = Channel.import_csv(csv_text)
+      redirect_to channels_url, notice: 'The Channels list was successfully updated.'
+    end
+  end
+
   def destroy
     @channel.destroy
     redirect_to channels_url, notice: 'Channel was successfully destroyed.'

@@ -1,0 +1,9 @@
+<%= simple_form_for :channel, url: upload_csv_channels_path, method: :post, html: {multipart: true} do |f| %>
+
+  <div class="form-group">
+    <p class="help">Add a CSV File</p>
+    <%= file_field_tag 'csv_file', class: "form-input" %>
+  </div>
+
+  <%= f.submit "Upload", :class => "btn btn-primary" %>
+<% end %>
