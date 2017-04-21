@@ -331,7 +331,7 @@ feature 'videos list' do
 
     let(:channel_ids) { [c1.id] }
 
-    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, trending:1} }
+    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, trending:"true"} }
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to have_json_size(2).at_path("/") }
     # first video

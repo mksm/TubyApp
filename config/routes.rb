@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :channels, except: :show
+  resources :channels, except: :show do
+    collection do
+      get :upload_csv
+      post :upload_csv
+    end
+  end
   resources :videos, except: :show
   get '/notify', to: 'application#notify'
   post '/notify', to: 'application#notify'
