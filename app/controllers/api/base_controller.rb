@@ -17,8 +17,9 @@ class Api::BaseController < ActionController::Base
     def authorize_client!
       return if Rails.env.test? || Rails.env.development?
       access_id, secret_key = access_id_and_secret_key
+      ip = remote_ip_address
 
-      head(:unauthorized) unless access_id && secret_key && ApiAuth.authentic?(request, secret_key) && whitelisted?(request.remote_ip)
+      head(:unauthorized) unless access_id && secret_key && ApiAuth.authentic?(request, secret_key) && whitelisted?(ip)
     end
 
     def access_id_and_secret_key
@@ -36,7 +37,12 @@ class Api::BaseController < ActionController::Base
       I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
     end
 
+    def remote_ip_address
+      request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
+    end
+
     def whitelisted?(ip)
+      puts "daaaaaaaaamn!!"
       return true unless ENV['IP_ADDRESS_WHITELIST_ENABLED']
       low,high = ENV['WHITELIST_IP_ADDRESSES'].split(',')
       low = IPAddr.new(low).to_i
