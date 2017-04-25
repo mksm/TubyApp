@@ -37,8 +37,8 @@ class Api::BaseController < ActionController::Base
     end
 
     def whitelisted?(ip)
-      return true unless WHITELIST_CONFIG['IP_ADDRESS_WHITELIST_ENABLED']
-      low,high = WHITELIST_CONFIG['WHITELIST_IP_ADDRESSES'].split(',')
+      return true unless ENV['IP_ADDRESS_WHITELIST_ENABLED']
+      low,high = ENV['WHITELIST_IP_ADDRESSES'].split(',')
       low = IPAddr.new(low).to_i
       high = IPAddr.new(high).to_i
       ip = IPAddr.new(ip).to_i
