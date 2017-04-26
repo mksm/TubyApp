@@ -17,8 +17,7 @@ class Api::BaseController < ActionController::Base
     def authorize_client!
       return if Rails.env.test? || Rails.env.development?
       access_id, secret_key = access_id_and_secret_key
-      ip = remote_ip_address
-
+      ip = remote_ip_address(request)
       head(:unauthorized) unless access_id && secret_key && ApiAuth.authentic?(request, secret_key) && whitelisted?(ip)
     end
 
@@ -37,7 +36,7 @@ class Api::BaseController < ActionController::Base
       I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
     end
 
-    def remote_ip_address
+    def remote_ip_address(request)
       request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
     end
 
