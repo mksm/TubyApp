@@ -21,7 +21,7 @@ RSpec.describe Api::BaseController, type: :controller do
   end
   context 'api call with' do
     describe "ip whitelisted" do
-      it { expect(Api::BaseController.new.send(:whitelisted?, "62.156.244.13")).to be true}
+      it { expect(Api::BaseController.new.send(:whitelisted?, "192.168.0.5")).to be true}
     end
     describe "ip not whitelisted" do
       it { expect(Api::BaseController.new.send(:whitelisted?, "63.156.244.13")).to be nil}
