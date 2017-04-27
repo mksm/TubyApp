@@ -40,8 +40,16 @@ class Api::BaseController < ActionController::Base
       request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
     end
 
+    def whitelist_enabled?
+      return false unless ENV['IP_ADDRESS_WHITELIST_ENABLED']
+    end
+
+    def get_whitelist_range
+      ENV['WHITELIST_IP_ADDRESSES']
+    end  
+
     def whitelisted?(ip)
-      return true unless ENV['IP_ADDRESS_WHITELIST_ENABLED']
+      return true unless whitelist_enabled?
       low,high = ENV['WHITELIST_IP_ADDRESSES'].split(',')
       low = IPAddr.new(low).to_i
       high = IPAddr.new(high).to_i
