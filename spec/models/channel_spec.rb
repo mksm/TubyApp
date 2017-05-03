@@ -53,7 +53,7 @@ RSpec.describe Channel, type: :model do
       it 'deletes the video' do
         video_id_to_delete = subject.videos.first.youtube_id
         allow(subject).to receive(:videos_missing_from_yt).and_return([video_id_to_delete])
-        subject.delete_videos_missing_from_yt
+        subject.send(:delete_videos_missing_from_yt)
         expect(subject.videos.count).to eq 1
         expect(Video.find_by_youtube_id(video_id_to_delete)).to eq nil
       end
@@ -62,7 +62,7 @@ RSpec.describe Channel, type: :model do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'no changes' do
         allow(subject).to receive(:videos_missing_from_yt).and_return([])
-        subject.delete_videos_missing_from_yt
+        subject.send(:delete_videos_missing_from_yt)
         expect(subject.videos.count).to eq 2
       end
     end
@@ -73,15 +73,15 @@ RSpec.describe Channel, type: :model do
       it 'retrieves the youtube_id of the video' do
         video_id_to_delete = subject.videos[0].youtube_id
         allow(subject).to receive(:yt_videos).and_return([{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
-        expect(subject.videos_missing_from_yt).to eq [video_id_to_delete]
+        expect(subject.send(:videos_missing_from_yt)).to eq [video_id_to_delete]
       end
     end
     context 'channel updated with yt channel' do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'retrieves empty array' do
         allow(subject).to receive(:yt_videos).and_return([{:name_en=>subject.videos[0].name_en, :youtube_id=>subject.videos[0].youtube_id},{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
-        subject.delete_videos_missing_from_yt
-        expect(subject.videos_missing_from_yt).to eq []
+        subject.send(:delete_videos_missing_from_yt)
+        expect(subject.send(:videos_missing_from_yt)).to eq []
       end
     end
   end

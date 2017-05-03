@@ -41,19 +41,6 @@ class Channel < ApplicationRecord
       result
     end
   end
-  def yt_videos
-    yt_channel = Yt::Channel.new id: youtube_id
-    result = []
-    yt_channel.videos.each { |video| result.push({:name_en=>video.title, :youtube_id=>video.id}) }
-    result
-  end
-  def delete_videos_missing_from_yt
-    videos_missing_from_yt.each { |video_id| Video.find_by_youtube_id(video_id).destroy! } unless videos_missing_from_yt.empty?
-  end
-  def videos_missing_from_yt
-    videos.map {|x| x.youtube_id} - yt_videos.map {|x| x[:youtube_id]}
-  end
-
   def videos_count
     videos.count
   end
@@ -80,5 +67,17 @@ class Channel < ApplicationRecord
     rescue Yt::Errors::NoItems => e
       errors.add(:youtube_id, "can't be found")
     end
+  end
+  def yt_videos
+    yt_channel = Yt::Channel.new id: youtube_id
+    result = []
+    yt_channel.videos.each { |video| result.push({:name_en=>video.title, :youtube_id=>video.id}) }
+    result
+  end
+  def videos_missing_from_yt
+    videos.map {|x| x.youtube_id} - yt_videos.map {|x| x[:youtube_id]}
+  end
+  def delete_videos_missing_from_yt
+    videos_missing_from_yt.each { |video_id| Video.find_by_youtube_id(video_id).destroy! } unless videos_missing_from_yt.empty?
   end
 end
