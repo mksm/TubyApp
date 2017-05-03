@@ -27,4 +27,11 @@ RSpec.describe "channels/edit", type: :view do
     assert_select "a[href=?]", "/channels/#{channelId}"
     assert_select "a[data-method=?]", "delete"
   end
+  it "renders a update videos in channel button" do
+    channelId = Channel.find_by_name("MyString").id
+    render
+    assert_select "a", :text => "Update Channel\'s videos", :count => 1
+    assert_select "a[href=?]", "/channels/#{channelId}/update_videos"
+    assert_select "a[data-method=?]", "put"
+  end
 end

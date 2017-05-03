@@ -3,6 +3,6 @@
 
 <%= render 'form', channel: @channel %><br>
 
-<%= link_to 'Update Channel\'s videos', update_videos_path(@channel) , class: "btn btn-success" %><br><br>
+<%= link_to 'Update Channel\'s videos', update_videos_channel_path(@channel), method: :put , class: "btn btn-success"%><br><br>
 
 <%= link_to 'Delete Channel', @channel, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure you want to delete this channel?" } %>
