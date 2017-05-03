@@ -11,13 +11,8 @@ class Channel < ApplicationRecord
   globalize_accessors
 
   def update_videos
-<<<<<<< 1299805bae8a275a264d113cfc550362265578cd
-    add_videos_to_channel
-    delete_videos_from_channel
-=======
     add_videos
     delete_videos_missing_from_yt
->>>>>>> Renames channels methods
   end
   def add_videos
     new_videos.each do |video|
