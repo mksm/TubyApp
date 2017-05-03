@@ -26,12 +26,12 @@ RSpec.describe Channel, type: :model do
     end
   end
 
-  describe '#get_only_new_videos' do
+  describe '#new_videos' do
     context 'without videos' do
       it 'returns all videos from youtube' do
         subject {create(:channel)}
-        allow(subject).to receive(:get_videos_from_yt).and_return(array_of_videos)
-        expect(subject.get_only_new_videos.count).to eq 2
+        allow(subject).to receive(:yt_videos).and_return(array_of_videos)
+        expect(subject.new_videos.count).to eq 2
       end
     end
     context 'with videos' do
@@ -40,20 +40,20 @@ RSpec.describe Channel, type: :model do
         FactoryGirl.create(:video , youtube_id:"HsWFu3Ef1ks", channel_id:subject.id)
       end
       it 'compares and retrieve new videos' do
-        allow(subject).to receive(:get_videos_from_yt).and_return(array_of_videos)
-        expect(subject.get_only_new_videos.count).to eq 1
-        expect(subject.get_only_new_videos[0]).to_not eq subject.videos.first
+        allow(subject).to receive(:yt_videos).and_return(array_of_videos)
+        expect(subject.new_videos.count).to eq 1
+        expect(subject.new_videos[0]).to_not eq subject.videos.first
       end
     end
   end
 
-  describe '#delete_videos_from_channel' do
+  describe '#delete_videos_missing_from_yt' do
     context 'video not present in the yt channel' do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'deletes the video' do
         video_id_to_delete = subject.videos.first.youtube_id
-        allow(subject).to receive(:get_videos_to_delete).and_return([video_id_to_delete])
-        subject.delete_videos_from_channel
+        allow(subject).to receive(:videos_missing_from_yt).and_return([video_id_to_delete])
+        subject.delete_videos_missing_from_yt
         expect(subject.videos.count).to eq 1
         expect(Video.find_by_youtube_id(video_id_to_delete)).to eq nil
       end
@@ -61,44 +61,44 @@ RSpec.describe Channel, type: :model do
     context 'channel updated with yt channel' do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'no changes' do
-        allow(subject).to receive(:get_videos_to_delete).and_return([])
-        subject.delete_videos_from_channel
+        allow(subject).to receive(:videos_missing_from_yt).and_return([])
+        subject.delete_videos_missing_from_yt
         expect(subject.videos.count).to eq 2
       end
     end
   end
-  describe '#get_videos_to_delete' do
+  describe '#videos_missing_from_yt' do
     context 'video not present in the yt channel' do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'retrieves the youtube_id of the video' do
         video_id_to_delete = subject.videos[0].youtube_id
-        allow(subject).to receive(:get_videos_from_yt).and_return([{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
-        expect(subject.get_videos_to_delete).to eq [video_id_to_delete]
+        allow(subject).to receive(:yt_videos).and_return([{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
+        expect(subject.videos_missing_from_yt).to eq [video_id_to_delete]
       end
     end
     context 'channel updated with yt channel' do
       subject {create(:channel, videos: create_list(:video, 2))}
       it 'retrieves empty array' do
-        allow(subject).to receive(:get_videos_from_yt).and_return([{:name_en=>subject.videos[0].name_en, :youtube_id=>subject.videos[0].youtube_id},{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
-        subject.delete_videos_from_channel
-        expect(subject.get_videos_to_delete).to eq []
+        allow(subject).to receive(:yt_videos).and_return([{:name_en=>subject.videos[0].name_en, :youtube_id=>subject.videos[0].youtube_id},{:name_en=>subject.videos[1].name_en, :youtube_id=>subject.videos[1].youtube_id}])
+        subject.delete_videos_missing_from_yt
+        expect(subject.videos_missing_from_yt).to eq []
       end
     end
   end
 
-  describe '#add_videos_to_channel' do
+  describe '#add_videos' do
     context 'not updated with yt channel' do
       subject {create(:channel)}
       it 'creates new videos' do
-        allow(subject).to receive(:get_only_new_videos).and_return(array_of_videos)
-        expect{subject.add_videos_to_channel}.to change{Video.all.count}.by(2)
+        allow(subject).to receive(:new_videos).and_return(array_of_videos)
+        expect{subject.add_videos}.to change{Video.all.count}.by(2)
       end
     end
     context 'updated with yt channel' do
       subject {create(:channel)}
       it 'no changes' do
-        allow(subject).to receive(:get_only_new_videos).and_return([])
-        expect{subject.add_videos_to_channel}.to_not change{Video.all.count}
+        allow(subject).to receive(:new_videos).and_return([])
+        expect{subject.add_videos}.to_not change{Video.all.count}
       end
     end
   end
