@@ -10,7 +10,7 @@ class Channel < ApplicationRecord
   translates :name
   globalize_accessors
 
-  def update_videos_in_channel
+  def update_videos
     add_videos_to_channel
     delete_videos_from_channel
   end

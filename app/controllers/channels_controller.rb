@@ -17,8 +17,8 @@ class ChannelsController < ApplicationController
     end
   end
 
-  def update_videos_in_channel
-    @channel.update_videos_in_channel
+  def update_videos
+    @channel.update_videos
     redirect_to videos_url, notice: 'The videos list was successfully updated.'
   end
 
