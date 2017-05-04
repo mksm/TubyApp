@@ -4,6 +4,7 @@ feature 'channels list' do
 
   before(:each) do
     allow_any_instance_of(Api::BaseController).to receive(:access_id_and_secret_key).and_return(["ABC123", "DEF456"])
+    allow_any_instance_of(Api::BaseController).to receive(:whitelisted?).with("123.43.65.1").and_return(true)
     ApiAuthHelpers.set_credentials("ABC123", "DEF456")
   end
 
