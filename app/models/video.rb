@@ -6,6 +6,7 @@ class Video < ApplicationRecord
   validates :channel, presence: true
 
   scope :trending, -> { where("videos.created_at >= ?", Time.now-7.days) }
+  scope :not_trending, -> { where("videos.created_at < ?", Time.now-7.days) }
 
   translates :name
   globalize_accessors
