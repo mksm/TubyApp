@@ -342,4 +342,36 @@ feature 'videos list' do
     it { expect(parse_json(response.body, "1/id")).to eq v2.id }
   end
 
+  context "retrieve not trending videos" do
+    let(:c1) { create :channel }
+    let!(:v1) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v2) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v3) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-9.days) }
+    let!(:v4) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-8.days) }
+    let(:channel_ids) { [c1.id] }
+
+    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, trending:"false"} }
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to have_json_size(2).at_path("/") }
+    it { expect(parse_json(response.body, "0/id")).to eq v3.id }
+    it { expect(parse_json(response.body, "1/id")).to eq v4.id }
+  end
+
+  context "retrieve all videos if trending param different of true or false" do
+    let(:c1) { create :channel }
+    let!(:v1) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v2) { FactoryGirl.create(:video, channel: c1) }
+    let!(:v3) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-9.days) }
+    let!(:v4) { FactoryGirl.create(:video, channel: c1, created_at: Time.now-8.days) }
+    let(:channel_ids) { [c1.id] }
+
+    before(:each) { get "/api/videos.json", params: {channel_ids: channel_ids.join(","), page: 1, trending:"now"} }
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to have_json_size(4).at_path("/") }
+    it { expect(parse_json(response.body, "0/id")).to eq v3.id }
+    it { expect(parse_json(response.body, "1/id")).to eq v4.id }
+    it { expect(parse_json(response.body, "2/id")).to eq v1.id }
+    it { expect(parse_json(response.body, "3/id")).to eq v2.id }
+  end
+
 end
