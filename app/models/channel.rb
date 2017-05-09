@@ -49,4 +49,22 @@ class Channel < ApplicationRecord
       Channel.create(row.to_hash)
     end
   end
+
+  def update_icon
+    yt_icon
+  end
+
+  private
+
+  def yt_icon
+    return if Rails.env.test? || Rails.env.development?
+    begin
+      if Yt::Channel.new(id: youtube_id).present? and Yt::Channel.new(id:youtube_id).thumbnail_url.present?
+        yt_channel = Yt::Channel.new(id: youtube_id)
+        icon = yt_channel.thumbnail_url
+      end
+    rescue Yt::Errors::NoItems => e
+      errors.add(:youtube_id, "can't be found")
+    end
+  end
 end
