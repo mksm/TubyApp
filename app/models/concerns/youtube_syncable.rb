@@ -1,4 +1,4 @@
-module Youtubable
+module YoutubeSyncable
   extend ActiveSupport::Concern
 
   def channel_image_url
