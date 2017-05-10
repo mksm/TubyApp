@@ -38,7 +38,7 @@ class ChannelsController < ApplicationController
 
   private
   def channel_params
-    params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
+    params.require(:channel).permit(:name_en, :name_ar, :youtube_id, :icon)
   end
 
   def render_with_alert(template)
