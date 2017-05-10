@@ -16,7 +16,7 @@ feature 'channels list' do
   end
 
   context "single empty channel" do
-    let!(:c1) { create(:channel, name: "Cartoons", youtube_id: "channelabc123") }
+    let!(:c1) { create(:channel, name: "Cartoons", youtube_id: "channelabc123", icon: "https://yt3.ggpht.com/-KMnbKDBl60w/photo.jpg") }
 
     before(:each) { get "/api/channels.json" }
 
@@ -25,11 +25,12 @@ feature 'channels list' do
     it { expect(parse_json(response.body, "0/name")).to eq "Cartoons" }
     it { expect(parse_json(response.body, "0/videos_count")).to eq 0 }
     it { expect(parse_json(response.body, "0/channel_image_url")).to be nil }
+    it { expect(parse_json(response.body, "0/icon")).to eq "https://yt3.ggpht.com/-KMnbKDBl60w/photo.jpg" }
     it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
   end
 
   context "single channel with one video" do
-    let(:c1) { create(:channel, name: "Cartoons", youtube_id: "channelabc123") }
+    let(:c1) { create(:channel, name: "Cartoons", youtube_id: "channelabc123", icon: "https://yt3.ggpht.com/-KMnbKDBl60w/photo.jpg") }
     let!(:v1) { create(:video, channel: c1, youtube_id: "abc123")}
 
     before(:each) { get "/api/channels.json" }
@@ -39,6 +40,7 @@ feature 'channels list' do
     it { expect(parse_json(response.body, "0/name")).to eq "Cartoons" }
     it { expect(parse_json(response.body, "0/videos_count")).to eq 1 }
     it { expect(parse_json(response.body, "0/channel_image_url")).to eq "http://img.youtube.com/vi/abc123/0.jpg" }
+    it { expect(parse_json(response.body, "0/icon")).to eq "https://yt3.ggpht.com/-KMnbKDBl60w/photo.jpg" }
     it { expect(response.body).to have_json_type(String).at_path("0/created_at") }
   end
 

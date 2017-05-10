@@ -40,7 +40,6 @@ class Channel < ApplicationRecord
   def videos_count
     videos.count
   end
-
   def self.import_csv(csv_text)
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |unstriped_row|
@@ -48,5 +47,8 @@ class Channel < ApplicationRecord
       unstriped_row.each{|k, v| row[k.strip] = v.strip}
       Channel.create(row.to_hash)
     end
+  end
+  def update_icon
+    self.icon = yt_icon
   end
 end

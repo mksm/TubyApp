@@ -1,5 +1,6 @@
 class ChannelsController < ApplicationController
   load_and_authorize_resource
+  before_action :update_icon, only: [:create, :update]
 
   def create
     if @channel.save
@@ -37,11 +38,15 @@ class ChannelsController < ApplicationController
 
   private
   def channel_params
-    params.require(:channel).permit(:name_en, :name_ar, :youtube_id)
+    params.require(:channel).permit(:name_en, :name_ar, :youtube_id, :icon)
   end
 
   def render_with_alert(template)
     flash[:alert] = @channel.errors.full_messages.to_sentence
     render template
+  end
+
+  def update_icon
+    @channel.update_icon
   end
 end
