@@ -7,7 +7,11 @@ class Api::VideosController < Api::BaseController
     #all
     @videos = Video.where(:hidden => false)
     #trending
-    @videos = @videos.trending if @trending
+    if @trending == "true"
+      @videos = @videos.trending
+    elsif @trending == "false"
+      @videos = @videos.not_trending
+    end
     #by channel
     @videos = @videos.where(:channel_id => @channel_ids) if params[:channel_ids]
     # excluded
@@ -51,7 +55,7 @@ class Api::VideosController < Api::BaseController
   end
 
   def find_trending
-    if params[:trending] == "true"
+    if params[:trending] == "true" || params[:trending] == "false"
       @trending = params[:trending]
     end
   end
