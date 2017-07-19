@@ -11,10 +11,32 @@ class Channel < ApplicationRecord
   translates :name
   globalize_accessors
 
+  def self.import_csv(csv_text)
+    csv = CSV.parse(csv_text, :headers => true)
+    channels = []
+    csv.each do |unstriped_row|
+      row = {}
+      unstriped_row.each{|k, v| row[k.strip] = v.strip}
+      channel = Channel.create(row.to_hash)
+      
+      unless Rails.env.test?
+        yt_channel = Yt::Channel.new(id: channel.youtube_id)
+        if yt_channel.present? && yt_channel.thumbnail_url.present?
+          channel.icon = yt_channel.thumbnail_url
+          channel.save!
+        end
+      end
+      
+      channels << channel
+    end
+    channels
+  end
+
   def update_videos
     add_videos
     delete_videos_missing_from_yt
   end
+  
   def add_videos
     new_videos.each do |video|
       new_video = Video.new(video)
@@ -22,6 +44,7 @@ class Channel < ApplicationRecord
       new_video.save
     end
   end
+  
   def new_videos
     if videos.count == 0
       yt_videos
@@ -37,17 +60,11 @@ class Channel < ApplicationRecord
       result
     end
   end
+  
   def videos_count
     videos.count
   end
-  def self.import_csv(csv_text)
-    csv = CSV.parse(csv_text, :headers => true)
-    csv.each do |unstriped_row|
-      row = {}
-      unstriped_row.each{|k, v| row[k.strip] = v.strip}
-      Channel.create(row.to_hash)
-    end
-  end
+  
   def update_icon
     self.icon = yt_icon
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509135917) do
+ActiveRecord::Schema.define(version: 20170414154140) do
 
   create_table "channel_translations", force: :cascade do |t|
     t.integer  "channel_id", null: false
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20170509135917) do
   create_table "channels", force: :cascade do |t|
     t.string   "name"
     t.string   "youtube_id"
+    t.string   "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "icon"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
