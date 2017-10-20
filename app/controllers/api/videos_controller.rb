@@ -7,11 +7,8 @@ class Api::VideosController < Api::BaseController
     #all
     @videos = Video.where(:hidden => false)
     #trending
-    if @trending == "true"
-      @videos = @videos.trending
-    elsif @trending == "false"
-      @videos = @videos.not_trending
-    end
+    @videos = params[:trending] == "true" ? @videos.trending : @videos.not_trending
+
     #by channel
     @videos = @videos.where(:channel_id => @channel_ids) if params[:channel_ids]
     # excluded
