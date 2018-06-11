@@ -25,6 +25,11 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 
 # UI
 gem 'rails-assets-bootstrap', '~> 3.3.6', source: 'https://rails-assets.org'
+# timeout long request handling
+gem "rack-timeout"
+
+#autoscale
+gem 'rails_autoscale_agent'
 
 # Paging
 gem 'kaminari', '~> 0.17.0'

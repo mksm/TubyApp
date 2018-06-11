@@ -1,0 +1,410 @@
+  [1m[35m (35.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying PRIMARY KEY)[0m
+  [1m[35m (25.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3504140064352897515);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseCreateUsers (20160708152140)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (31.9ms)[0m  [1m[35mCREATE TABLE "users" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[35mSQL (1.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20160708152140"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateVideos (20160708154820)
+  [1m[35m (5.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.2ms)[0m  [1m[35mCREATE TABLE "videos" ("id" serial primary key, "name" character varying, "youtube_id" character varying, "channel_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "video_translations" ("id" serial primary key, "video_id" integer NOT NULL, "locale" character varying NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "video_translations" ADD "name" character varying[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_video_translations_on_video_id" ON "video_translations"  ("video_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_video_translations_on_locale" ON "video_translations"  ("locale")[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20160708154820"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateDelayedJobs (20161007091034)
+  [1m[35m (11.8ms)[0m  [1m[35mBEGIN[0m
+DEPRECATION WARNING: Directly inheriting from ActiveRecord::Migration is deprecated. Please specify the Rails release the migration was written for:
+
+  class CreateDelayedJobs < ActiveRecord::Migration[4.2] (called from load at /Users/usamakhan/.rbenv/versions/2.3.1/bin/rake:23)
+  [1m[35m (15.0ms)[0m  [1m[35mCREATE TABLE "delayed_jobs" ("id" serial primary key, "priority" integer DEFAULT 0 NOT NULL, "attempts" integer DEFAULT 0 NOT NULL, "handler" text NOT NULL, "last_error" text, "run_at" timestamp, "locked_at" timestamp, "failed_at" timestamp, "locked_by" character varying, "queue" character varying, "created_at" timestamp, "updated_at" timestamp)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "delayed_jobs_priority" ON "delayed_jobs"  ("priority", "run_at")[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20161007091034"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateChannels (20170324153820)
+  [1m[35m (5.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.9ms)[0m  [1m[35mCREATE TABLE "channels" ("id" serial primary key, "name" character varying, "youtube_id" character varying, "icon" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170324153820"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddChannelTranslationTable (20170327163126)
+  [1m[35m (5.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (14.5ms)[0m  [1m[35mCREATE TABLE "channel_translations" ("id" serial primary key, "channel_id" integer NOT NULL, "locale" character varying NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "name" character varying)[0m
+  [1m[35m (5.5ms)[0m  [1m[35mCREATE  INDEX  "index_channel_translations_on_channel_id" ON "channel_translations"  ("channel_id")[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX  "index_channel_translations_on_locale" ON "channel_translations"  ("locale")[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170327163126"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddHiddenToVideos (20170414154140)
+  [1m[35m (6.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (21.5ms)[0m  [1m[35mALTER TABLE "videos" ADD "hidden" boolean DEFAULT 'f' NOT NULL[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170414154140"]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", 2018-06-11 17:14:27 UTC], ["updated_at", 2018-06-11 17:14:27 UTC]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(3504140064352897515)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (2.9ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'channel_translations'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'channels'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'delayed_jobs'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'video_translations'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'videos'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms state=ready
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms service=1ms state=active
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms service=1ms state=ready
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms service=0ms state=active
+Started GET "/" for ::1 at 2018-06-11 22:23:59 +0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ChannelsController#index as HTML
+Completed 401 Unauthorized in 19ms (ActiveRecord: 0.0ms)
+
+
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms service=298ms state=completed
+source=rack-timeout id=48d36f4d-5f13-44c6-be3b-0b074bd1629c timeout=15000ms service=299ms state=completed
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms state=ready
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=0ms state=active
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=0ms state=active
+Started GET "/users/sign_in" for ::1 at 2018-06-11 22:24:00 +0500
+Processing by SessionsController#new as HTML
+  Rendering /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/shared/_links.html.erb (2.3ms)
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application (37.2ms)
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=1013ms state=active
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=1087ms state=active
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=2002ms state=active
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=2002ms state=active
+Completed 200 OK in 2161ms (Views: 2135.2ms | ActiveRecord: 4.3ms)
+
+
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=2177ms state=completed
+source=rack-timeout id=f4b302a8-e766-49a4-8641-fc1304ce5a01 timeout=15000ms service=2178ms state=completed
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms state=ready
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms service=0ms state=active
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms service=1ms state=active
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms service=9ms state=completed
+source=rack-timeout id=7553b541-5a0a-479d-9423-c792d56f9bb2 timeout=15000ms service=16ms state=completed
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms state=ready
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms service=0ms state=active
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms service=0ms state=active
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms service=6ms state=completed
+source=rack-timeout id=e4a1adbd-21ac-4b71-bd97-46d4a30a64e9 timeout=15000ms service=7ms state=completed
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms state=ready
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms service=0ms state=active
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms state=ready
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms service=0ms state=ready
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms service=0ms state=ready
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms service=2ms state=active
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms state=ready
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms service=5ms state=active
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms service=7ms state=completed
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms state=ready
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms service=5ms state=active
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms service=8ms state=completed
+source=rack-timeout id=f3c9a9b3-1925-41f1-be05-80f5bb07d1e4 timeout=15000ms service=10ms state=completed
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms service=5ms state=ready
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms state=ready
+source=rack-timeout id=49931762-0fee-4941-a834-1a0a66f39d5c timeout=15000ms service=10ms state=completed
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms state=ready
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=1ms state=ready
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=1ms state=ready
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=1ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=1ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=2ms state=active
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms service=4ms state=completed
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms service=4ms state=completed
+source=rack-timeout id=98808385-3ebe-443f-a0bb-f4cb43e6a5ca timeout=15000ms state=ready
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms service=8ms state=completed
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms service=8ms state=completed
+source=rack-timeout id=db879ec3-7458-44e2-bb40-1ad8d28df682 timeout=15000ms service=15ms state=completed
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms state=ready
+source=rack-timeout id=98808385-3ebe-443f-a0bb-f4cb43e6a5ca timeout=15000ms service=5ms state=active
+source=rack-timeout id=98808385-3ebe-443f-a0bb-f4cb43e6a5ca timeout=15000ms service=5ms state=active
+source=rack-timeout id=24ec3993-f0f1-44d4-8516-2498f3ec8f09 timeout=15000ms service=11ms state=completed
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms service=2ms state=active
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms service=2ms state=active
+source=rack-timeout id=98808385-3ebe-443f-a0bb-f4cb43e6a5ca timeout=15000ms service=4ms state=completed
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms state=ready
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms service=4ms state=active
+source=rack-timeout id=98808385-3ebe-443f-a0bb-f4cb43e6a5ca timeout=15000ms service=10ms state=completed
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms service=8ms state=completed
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms service=4ms state=ready
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms service=4ms state=ready
+source=rack-timeout id=cc93ab3e-29fa-4cf3-994b-ddbdee7cecdf timeout=15000ms service=10ms state=completed
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms service=1ms state=active
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms service=8ms state=completed
+source=rack-timeout id=c547711d-ac8f-4a86-b3af-eb3495ee632b timeout=15000ms service=12ms state=completed
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=6ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=1006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=1006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=1005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=1005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=2006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=2006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=2005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=2005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=3006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=3006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=3005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=3005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=4002ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=4002ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=4001ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=4001ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=5002ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=5002ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=5001ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=5001ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=6005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=6005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=6004ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=6004ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=7006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=7005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=7005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=7005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=8006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=8006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=8005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=8005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=9006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=9006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=9005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=9005ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=10006ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=10006ms state=active
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=10005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=10005ms state=active
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=10670ms state=completed
+source=rack-timeout id=f0c3be13-0556-4594-8ab3-ffb074c79d61 timeout=15000ms service=10672ms state=completed
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=10676ms state=completed
+source=rack-timeout id=1ebde30f-3ee8-4bc2-a573-ff6febd7338a timeout=15000ms service=10677ms state=completed
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms state=ready
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms service=0ms state=active
+Started GET "/users/sign_in" for ::1 at 2018-06-11 22:26:14 +0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by SessionsController#new as HTML
+  Rendering /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/shared/_links.html.erb (2.3ms)
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application (59.2ms)
+Completed 200 OK in 488ms (Views: 454.9ms | ActiveRecord: 4.2ms)
+
+
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms service=719ms state=completed
+source=rack-timeout id=07d47ba4-bc5d-41d2-b308-428e559974d8 timeout=15000ms service=720ms state=completed
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms state=ready
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms service=1ms state=active
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms service=0ms state=active
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms service=23ms state=completed
+source=rack-timeout id=27598b42-bd3e-4927-83bc-99e1087b68b8 timeout=15000ms service=24ms state=completed
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms state=ready
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms service=0ms state=active
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms service=0ms state=active
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms state=ready
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms service=0ms state=active
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms service=0ms state=active
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms service=5ms state=completed
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms state=ready
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms service=1ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms state=ready
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms service=1ms state=ready
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms state=ready
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=1ms state=active
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms service=0ms state=active
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms service=1ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms state=ready
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms service=0ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=1ms state=ready
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=1ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=1ms state=ready
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=1ms state=active
+source=rack-timeout id=ae2b2d60-b50d-473a-b0d0-396675c08149 timeout=15000ms service=24ms state=completed
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms service=7ms state=completed
+source=rack-timeout id=2b0dddce-b137-4e1f-ba1b-b507d0eb1c81 timeout=15000ms service=10ms state=completed
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms state=ready
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms service=0ms state=active
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms service=0ms state=ready
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms state=ready
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms service=0ms state=active
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms service=13ms state=active
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms service=14ms state=completed
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms service=13ms state=ready
+source=rack-timeout id=ff0a9178-f33b-4fa8-9f6e-3ebd893da40d timeout=15000ms service=16ms state=completed
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms service=0ms state=active
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms service=6ms state=completed
+source=rack-timeout id=4c8ebf63-e63d-4b80-a091-b030b158b93e timeout=15000ms service=21ms state=completed
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms state=ready
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms service=0ms state=active
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms state=ready
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms service=0ms state=ready
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms service=0ms state=active
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms service=0ms state=ready
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms service=1ms state=active
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms service=2ms state=active
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms service=6ms state=completed
+source=rack-timeout id=1d7a8662-ed2d-4568-9727-17c3109fed55 timeout=15000ms service=11ms state=completed
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms service=13ms state=completed
+source=rack-timeout id=7bb6a089-0886-4d20-a1b8-168e1c3672aa timeout=15000ms service=14ms state=completed
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=176ms state=active
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms service=631ms state=completed
+source=rack-timeout id=fc2c2d11-8d59-42c0-b700-0cc1b28a4413 timeout=15000ms service=632ms state=completed
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms service=639ms state=completed
+source=rack-timeout id=60370dd0-a196-422d-9f4e-513de0f9dbde timeout=15000ms service=641ms state=completed
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=1005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=1004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=1004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=1004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=2005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=2005ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=2004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=2004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=3005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=3004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=3004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=3004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=4005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=4005ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=4004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=4004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=5005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=5004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=5004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=5003ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=6006ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=6005ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=6004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=6004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=7004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=7006ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=7006ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=7005ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=8005ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=8004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=8004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=8004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=9004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=9004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=9003ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=9003ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=10004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=10004ms state=active
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=10004ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=10003ms state=active
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=10775ms state=completed
+source=rack-timeout id=824c0ba7-243e-4e90-88ee-8f88e2c5990d timeout=15000ms service=10776ms state=completed
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=10780ms state=completed
+source=rack-timeout id=94cd6936-627b-4ef0-81a1-0a690ab286cb timeout=15000ms service=10782ms state=completed
+[RailsAutoscale] Middleware entered - request_id= path=/ method=get request_size=0
+[RailsAutoscale] Reporter not started: RAILS_AUTOSCALE_URL is not set
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms state=ready
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms service=1ms state=active
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms service=1ms state=ready
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms service=0ms state=active
+Started GET "/" for ::1 at 2018-06-11 22:33:45 +0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ChannelsController#index as HTML
+Completed 401 Unauthorized in 24ms (ActiveRecord: 0.0ms)
+
+
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms service=303ms state=completed
+source=rack-timeout id=deef62b3-aefe-4048-9153-c1788d8221f4 timeout=15000ms service=304ms state=completed
+[RailsAutoscale] Middleware entered - request_id= path=/users/sign_in method=get request_size=0
+[RailsAutoscale] Reporter not started: RAILS_AUTOSCALE_URL is not set
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms state=ready
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms state=ready
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms service=0ms state=active
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms service=0ms state=active
+Started GET "/users/sign_in" for ::1 at 2018-06-11 22:33:46 +0500
+Processing by SessionsController#new as HTML
+  Rendering /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/shared/_links.html.erb (2.6ms)
+  Rendered /Users/usamakhan/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/devise-4.2.0/app/views/devise/sessions/new.html.erb within layouts/application (36.8ms)
+Completed 200 OK in 435ms (Views: 401.8ms | ActiveRecord: 6.6ms)
+
+
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms service=454ms state=completed
+source=rack-timeout id=e90f65e3-ec65-4e97-8c1e-97cd8c018031 timeout=15000ms service=455ms state=completed
